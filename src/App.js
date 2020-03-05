@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import logo from './logo.svg';
 import './App.css';
 import Dashboard from "./Dashboard";
-//import SpotifyLogin from './SpotifyLogin';
-import 'spotify-web-api-node';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { config } from "./config";
+import * as $ from "jquery";
 
 class App extends Component {
 
@@ -13,6 +12,7 @@ class App extends Component {
     super();
     this.state = {
       token: null,
+      error: false,
       item: {
         album: {
           images: [{ url: "" }]
@@ -24,7 +24,7 @@ class App extends Component {
       is_playing: "Paused",
       progress_ms: 0
     };
- 
+
   }
 
 
@@ -49,39 +49,34 @@ class App extends Component {
       window.location.href = spotifyApi.createAuthorizeURL(scopes, state);
     } else if (applicationCode) {
       // Login Step 1 was ok
-      const request = require('request'); // "Request" library
 
-      var authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        form: {
-          code: applicationCode,
-          redirect_uri: config.redirectUri,
-          grant_type: 'authorization_code'
+      $.ajax({
+        method: "POST",
+        url: "https://accounts.spotify.com/api/token",
+        data: {
+          "grant_type": "authorization_code",
+          "code": applicationCode,
+          "redirect_uri": config.redirectUri,
+          "client_secret": config.clientSecret,
+          "client_id": config.clientId,
         },
-        headers: {
-          'Authorization': 'Basic ' + (new Buffer(config.clientId + ':' + config.clientSecret).toString('base64'))
-        },
-        json: true
-      };
+        success: function (result) {
+          if (result.access_token) {
+            //Login Step 2 was ok
 
-      request.post(authOptions, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
+            const access_token = result.access_token;
+            //Test: 
+            //spotifyApi.setAccessToken(access_token);
+            //spotifyApi.getArtist("1l6d0RIxTL3JytlLGvWzYe");
 
-          //Login Step 2 ok
-
-          let access_token = body.access_token;
-          //refresh_token = body.refresh_token;
-
-          spotifyApi.setAccessToken(access_token);
-          spotifyApi.getArtist("1l6d0RIxTL3JytlLGvWzYe");
-
-          this.setState({token: access_token});
-          
-
-        } else {
-          console.log("error");
-
-        };
+            this.setState({ token: access_token });
+          } else {
+            this.setState({error: true});
+          }
+        }.bind(this),
+        error: function(result) {
+          this.setState({error: true});
+        }.bind(this)
       });
     }
   }
@@ -108,20 +103,22 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-        </p>
 
 
-          {this.state.token && (
-            <Dashboard/>
-          )}
 
-{!this.state.token && (
-            <div>Login to Spotify failed. Please check your config.js</div>
-          )}
+          {this.state.token ? (
+          <Dashboard>
 
-        
+          </Dashboard>) : ""}
+          
+
+          {this.state.error ?
+            (<div>Login to Spotify failed. Please check your config.js</div>)
+          : ""}
+
+
+
+
         </header>
       </div>
     );

@@ -10,7 +10,8 @@
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
     "spotify-web-api-node": "^4.0.0",
-    "request": "~2.83.0"
+    "request": "~2.83.0",
+    "jquery": "^3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
