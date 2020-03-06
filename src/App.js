@@ -11,7 +11,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      token: null,
+      accessToken: null,
       error: false,
       item: {
         album: {
@@ -66,12 +66,11 @@ class App extends Component {
 
             const access_token = result.access_token;
             //Test: 
-            //spotifyApi.setAccessToken(access_token);
             //spotifyApi.getArtist("1l6d0RIxTL3JytlLGvWzYe");
 
-            this.setState({ token: access_token });
+            this.setState({ accessToken: access_token });
           } else {
-            this.setState({error: true});
+            this.setState({ error: true});
           }
         }.bind(this),
         error: function(result) {
@@ -106,10 +105,8 @@ class App extends Component {
 
 
 
-          {this.state.token ? (
-          <Dashboard>
-
-          </Dashboard>) : ""}
+          {this.state.accessToken ? (
+          <Dashboard accessToken={this.state.accessToken}/>) : ""}
           
 
           {this.state.error ?
