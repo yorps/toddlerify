@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from './logo.svg';
 import './App.css';
 import Dashboard from "./Dashboard";
 import SpotifyWebApi from 'spotify-web-api-node';
@@ -101,8 +100,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-
 
 
           {this.state.accessToken ? (
