@@ -19,6 +19,10 @@
 }
 
 
+.iconFloat {
+  float:left;
+}
+
 .artistIcon {
   width: 200px;
   height: 200px;
@@ -29,3 +33,11 @@
   border-radius: 50%;
 }
 
+.albumIcon {
+  width: 200px;
+  height: 200px;
+  background: white;
+  float: left;
+  background-size: 200px;
+  margin: 10px;
+}
