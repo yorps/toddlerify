@@ -5,8 +5,10 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import { config } from "./config";
 import * as $ from "jquery";
 
+
 class App extends Component {
 
+  
   constructor() {
     super();
     this.state = {
@@ -46,7 +48,7 @@ class App extends Component {
     if (!applicationCode) {
       // Init Login Step 1  
       window.location.href = spotifyApi.createAuthorizeURL(scopes, state);
-    } else if (applicationCode) {
+    } else if (applicationCode && (this.state.accessToken == null)) {
       // Login Step 1 was ok
 
       $.ajax({
@@ -68,12 +70,19 @@ class App extends Component {
             //spotifyApi.getArtist("1l6d0RIxTL3JytlLGvWzYe");
 
             this.setState({ accessToken: access_token });
+            
+            window.location.href = "/dashboard/" + access_token;
+            //TODO: Replace, use history
+            //history.push("/dashboard/" + access_token);
+
+
           } else {
-            this.setState({ error: true});
+            this.setState({ error: true });
           }
         }.bind(this),
-        error: function(result) {
-          this.setState({error: true});
+        error: function (result) {
+          this.setState({ error: true });
+          console.error(result);
         }.bind(this)
       });
     }
@@ -103,12 +112,12 @@ class App extends Component {
 
 
           {this.state.accessToken ? (
-          <Dashboard accessToken={this.state.accessToken}/>) : ""}
-          
+            <Dashboard accessToken={this.state.accessToken} />) : ""}
+
 
           {this.state.error ?
             (<div>Login to Spotify failed. Please check your config.js</div>)
-          : ""}
+            : ""}
 
 
 

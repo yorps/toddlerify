@@ -6,8 +6,7 @@ class Dashboard extends Component {
 
     render() {
         return <div>
-            
-            <ArtistList accessToken={this.props.accessToken}/>
+            <ArtistList accessToken={this.props.match.params.accessToken}/>
         </div>;
     }
 }

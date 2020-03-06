@@ -5,12 +5,14 @@ import App from './App';
 import AlbumsByArtistList from './components/AlbumsByArtistList'
 import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router} from 'react-router-dom';
+import Dashboard from './Dashboard';
 
 
 const routing = (
 
     <Router>
             <Route exact path="/" component={App} />
+            <Route path="/dashboard/:accessToken" component={Dashboard} />
             <Route path="/albums/:artistId/:accessToken" component={AlbumsByArtistList} />
     </Router>
 )
