@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import SpotifyWebApi from 'spotify-web-api-node';
-//import { config } from "./config";
 
-class ArtistIcon extends Component {
+class AlbumIcon extends Component {
 
     constructor(props) {
         super(props);
@@ -34,10 +33,10 @@ class ArtistIcon extends Component {
 
 
     render() {
-        return <div className="artistIcon" style={{backgroundImage: `url(${ this.state.imgUrl })`}}>
+        return <div className="albumIcon" name={this.state.name} style={{backgroundImage: `url(${ this.state.imgUrl })`}}>
 
         </div>;
     }
 }
 
-export default ArtistIcon;
+export default AlbumIcon;

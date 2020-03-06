@@ -16,8 +16,8 @@ class ArtistList extends Component {
     render() {
         return <div>
 
-            {this.state.artists.map((artistId) => {
-                return (<ArtistIcon id={artistId} accessToken={this.props.accessToken} /> )
+            {this.state.artists.map((artistId, i) => {
+                return (<ArtistIcon key={i} id={artistId} accessToken={this.props.accessToken} /> )
             })}
 
         </div>

@@ -1,22 +1,12 @@
 import React, { Component } from "react";
 import './App.css';
-import ArtistList from "./ArtistList/ArtistList"
+import ArtistList from "./components/ArtistList"
 
 class Dashboard extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            input: "",
-            output: "",
-            func: "sha256"
-        };
-    }
-
-
     render() {
-        return <div><h1>DASHBOARD</h1>
+        return <div>
+            
             <ArtistList accessToken={this.props.accessToken}/>
         </div>;
     }
