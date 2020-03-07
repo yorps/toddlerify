@@ -4,7 +4,7 @@ class AlbumIcon extends Component {
 
     render() {
         return <div className="albumIcon" 
-        name={this.props.name} 
+        title={this.props.name} 
         style={{backgroundImage: `url(${ this.props.imgUrl })`}}>
 
         </div>;
