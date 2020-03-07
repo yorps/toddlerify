@@ -38,15 +38,18 @@ class ArtistIcon extends Component {
 
 
     render() {
+        let className = "artistIcon";
+        className += (this.props.small ? " iconSmall" : "");
 
         let link = "/albums/" + this.props.id + "/" + this.props.accessToken;
+
         return <div className="iconFloat">
             <a href={link}>
-            <div 
-        className="artistIcon"  
-        title={this.state.name} 
-        style={{ backgroundImage: `url(${this.state.imgUrl})` }} />
-        </a>
+                <div
+                    className={className}
+                    title={this.state.name}
+                    style={{ backgroundImage: `url(${this.state.imgUrl})` }} />
+            </a>
         </div>;
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AlbumIcon from "./AlbumIcon"
 import SpotifyWebApi from 'spotify-web-api-node';
+import "./Album.css"
 
 class AlbumsByArtistList extends Component {
 

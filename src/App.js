@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import './App.css';
-import Dashboard from "./Dashboard";
 import SpotifyWebApi from 'spotify-web-api-node';
 import { config } from "./config";
 import * as $ from "jquery";
@@ -112,7 +111,8 @@ class App extends Component {
 
 
           {this.state.accessToken ? (
-            <Dashboard accessToken={this.state.accessToken} />) : ""}
+            <div> Login to Spotify ...</div>
+            ) : ""}
 
 
           {this.state.error ?

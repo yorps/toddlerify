@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { artists } from "../config";
+import { artists } from "../../config";
 import ArtistIcon from "./ArtistIcon"
+import './Artist.css';
 
 class ArtistList extends Component {
 
@@ -17,7 +18,7 @@ class ArtistList extends Component {
         return <div>
 
             {this.state.artists.map((artistId, i) => {
-                return (<ArtistIcon key={i} id={artistId} accessToken={this.props.accessToken} /> )
+                return (<ArtistIcon key={i} id={artistId} accessToken={this.props.accessToken} small="true"/> )
             })}
 
         </div>
