@@ -7,34 +7,79 @@ class AlbumsByArtistList extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            albums: []
+            albums: [],
+            loading: false
         }
+
+        this.spotifyApi = null;
     }
+
     componentDidMount() {
-        //load albums
-        const spotifyApi = new SpotifyWebApi();
-        spotifyApi.setAccessToken(this.props.match.params.accessToken);
-        spotifyApi.getArtistAlbums(this.props.match.params.artistId, {limit: 50}).then(
-            function(data) {
-              console.log('Artist albums', data.body);
-              let total = data.body.total;
-              if (total > 500) {
-                  console.warn("more than 50 results for selected artist");
-              }
-              this.setAlbums(data.body.items);
-            }.bind(this),
-            function(err) {
-              console.error(err);
-            }
-          );
+        this.loadAlbums();
     }
+
+    UNSAFE_componentWillReceiveProps() {
+        this.loadAlbums();
+    }
+
+    loadAlbums() {
+        this.spotifyApi = new SpotifyWebApi();
+        this.spotifyApi.setAccessToken(this.props.accessToken);
+
+
+        this.spotifyApi.getArtistAlbums(this.props.artistId, { limit: 50 }).then(
+            function (data) {
+                let total = data.body.total;
+                if (total > 50) {
+                    console.warn("more than 50 results for selected artist");
+                }
+
+                this.setAlbums(data.body.items);
+                this.forceUpdate();
+            }.bind(this),
+            function (err) {
+                console.error(err);
+            }
+        );
+    }
+
+//    shouldComponentUpdate(nextProps) {
+//            // only re-render if props.value has changed
+//            return this.props.value !== nextProps.value;
+//    }
 
     setAlbums(albums) {
+        this.setState({ albums: [], loading: false });
+        this.setState({ albums: albums, loading: true });
+        //this.forceUpdate();
+    }
 
-        //sort !?
-        /*
+    render() {
+        return <div className="albumList">
+            {this.state.albums.map((album, i) => {
+                return (<AlbumIcon key={album.id}
+                    className="albumIcon"
+                    id={album.id}
+                    name={album.name}
+                    imgUrl={album.images[1].url}
+                    selectAlbum={this.props.selectAlbum}
+                    albumUri={album.uri}
+                />)
+            })}
+        </div>
+
+    }
+
+}
+
+export default AlbumsByArtistList;
+
+
+/*
+
+ALBUM EXAMPLE
+
 album_group: "album"
 album_type: "album"
 artists: Array [ {…} ]
@@ -50,25 +95,3 @@ total_tracks: 28
 type: "album"
 uri: "spotify:album:6QZ9X0aeJflvlniT4vqthx
 */
-
-        this.setState({albums: albums});
-    }
-
-    render() {
-        return <div>
-            {this.state.albums.map((album, i) => {
-                return (<AlbumIcon key={i} 
-                    className="albumIcon"
-                    id={album.id} 
-                    name={album.name}
-                    imgUrl={album.images[1].url}
-
-                    accessToken={this.props.accessToken} /> )
-            })}
-        </div>
-
-    }
-    
-}
-
-export default AlbumsByArtistList;

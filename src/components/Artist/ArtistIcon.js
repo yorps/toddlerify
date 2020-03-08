@@ -27,29 +27,25 @@ class ArtistIcon extends Component {
             }.bind(this), function (err) {
                 console.error(err);
             });
-
-
     }
 
 
     onClick = (e) => {
-        console.debug("Open Albums for Artist " + this.props.id);
+        this.props.selectArtist(this.props.id);
     };
 
 
     render() {
-        let className = "artistIcon";
-        className += (this.props.small ? " iconSmall" : "");
-
-        let link = "/albums/" + this.props.id + "/" + this.props.accessToken;
-
+        let iconClass = "artistIcon ";
+        iconClass += (this.props.globalSelectedArtist == null) ? "neutral" :
+        (this.props.globalSelectedArtist === this.props.id) ? "selected" :
+        "unselected";
         return <div className="iconFloat">
-            <a href={link}>
                 <div
-                    className={className}
+                    onClick={this.onClick}
+                    className={iconClass}
                     title={this.state.name}
                     style={{ backgroundImage: `url(${this.state.imgUrl})` }} />
-            </a>
         </div>;
     }
 }

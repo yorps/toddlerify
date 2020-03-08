@@ -1,9 +1,40 @@
 .artistIcon {
-  width: 200px;
-  height: 200px;
+
   background: white;
   float: left;
-  background-size: 200px;
   margin: 10px;
   border-radius: 50%;
+  cursor: pointer;
+}
+
+.neutral {
+  width: 200px;
+  height: 200px;
+  background-size: 200px;
+}
+
+.selected {
+  width: 150px;
+  height: 150px;
+  background-size: 150px;
+}
+
+.unselected {
+  width: 130px;
+  height: 130px;
+  background-size: 130px;
+  -webkit-filter: blur(.3px);
+  filter: blur(.3px) sepia(0.2);
+}  
+
+.artistList {
+  width: 100%;
+  height: 230px;
+  overflow: auto;
+}
+
+.artistList :after {
+  content: "";
+  display: table;
+  clear: both;
 }

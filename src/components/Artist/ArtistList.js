@@ -15,10 +15,16 @@ class ArtistList extends Component {
 
 
     render() {
-        return <div>
-
+        return <div className="artistList">
+            
             {this.state.artists.map((artistId, i) => {
-                return (<ArtistIcon key={i} id={artistId} accessToken={this.props.accessToken} small="true"/> )
+                return (<ArtistIcon 
+                    key={i} 
+                    id={artistId} 
+                    accessToken={this.props.accessToken} 
+                    selectArtist={this.props.selectArtist}
+                    globalSelectedArtist={this.props.selectedArtist}
+                    small="true" />)
             })}
 
         </div>

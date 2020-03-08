@@ -18,7 +18,12 @@ body {
   color: #61dafb;
 }
 
-
 .iconFloat {
   float:left;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%
 }
