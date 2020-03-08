@@ -7,7 +7,7 @@ import * as $ from "jquery";
 
 class App extends Component {
 
-  
+
   constructor() {
     super();
     this.state = {
@@ -33,7 +33,11 @@ class App extends Component {
     // AUTO LOGIN TO SPOTIFY
     // See https://developer.spotify.com/documentation/general/guides/authorization-guide/
 
-    var scopes = ['user-read-private', 'user-read-email'],
+    var scopes = ['user-read-private', 'user-read-email',
+      'streaming', 'user-read-playback-state',
+      'user-modify-playback-state'],
+
+
       state = 'loginok';
 
     let spotifyApi = new SpotifyWebApi({
@@ -69,7 +73,7 @@ class App extends Component {
             //spotifyApi.getArtist("1l6d0RIxTL3JytlLGvWzYe");
 
             this.setState({ accessToken: access_token });
-            
+
             window.location.href = "/dashboard/" + access_token;
             //TODO: Replace, use history
             //history.push("/dashboard/" + access_token);
@@ -112,7 +116,7 @@ class App extends Component {
 
           {this.state.accessToken ? (
             <div> Login to Spotify ...</div>
-            ) : ""}
+          ) : ""}
 
 
           {this.state.error ?
