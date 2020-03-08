@@ -13,30 +13,33 @@ class AlbumsByArtistList extends Component {
         }
 
         this.spotifyApi = null;
+        this.loadingBlocksize = 50;
+
+        this.spotifyApi = new SpotifyWebApi();
+        this.spotifyApi.setAccessToken(this.props.accessToken);
     }
 
     componentDidMount() {
         this.loadAlbums();
     }
 
-    UNSAFE_componentWillReceiveProps() {
-        this.loadAlbums();
+    //update on artist change
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props !== prevProps) {
+            this.loadAlbums();
+        }
     }
 
-    loadAlbums() {
-        this.spotifyApi = new SpotifyWebApi();
-        this.spotifyApi.setAccessToken(this.props.accessToken);
-
-
-        this.spotifyApi.getArtistAlbums(this.props.artistId, { limit: 50 }).then(
+    loadAlbums(offset = 0, total = null) {
+        this.spotifyApi.getArtistAlbums(this.props.artistId, { offset: offset, limit: this.loadingBlocksize }).then(
             function (data) {
-                let total = data.body.total;
-                if (total > 50) {
-                    console.warn("more than 50 results for selected artist");
-                }
+                let nextOffset = (data.body.offset + this.loadingBlocksize);
+                let needsToLoadMore = (nextOffset < data.body.total);
+                this.addAlbums(data.body.items, data.body.offset, needsToLoadMore);
 
-                this.setAlbums(data.body.items);
-                this.forceUpdate();
+                if (needsToLoadMore) {
+                    this.loadAlbums(nextOffset, data.body.total);
+                }
             }.bind(this),
             function (err) {
                 console.error(err);
@@ -44,15 +47,14 @@ class AlbumsByArtistList extends Component {
         );
     }
 
-//    shouldComponentUpdate(nextProps) {
-//            // only re-render if props.value has changed
-//            return this.props.value !== nextProps.value;
-//    }
-
-    setAlbums(albums) {
-        this.setState({ albums: [], loading: false });
-        this.setState({ albums: albums, loading: true });
-        //this.forceUpdate();
+    addAlbums(newAlbums, offset, stillLoading) {
+        if (offset === 0) {
+            this.setState({ albums: newAlbums, loading: stillLoading });
+        } else {
+            // add newAlbums to existing ones
+            const albums = this.state.albums.concat(newAlbums); //! don't push, use concat
+            this.setState({ albums: albums, loading: stillLoading });
+        }
     }
 
     render() {
