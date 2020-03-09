@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import './App.css';
-import { artists } from "./config";
+import { artists, playlists } from "./config";
 import SpotifyWebApi from "spotify-web-api-node";
 import ArtistList from "./components/Artist/ArtistList";
 import AlbumsByArtistList from "./components/Album/AlbumsByArtistList";
 import SpotifyPlayer from 'react-spotify-web-playback';
 import Search from "./components/Search/Search"
+import PlaylistList from "./components/Playlist/PlaylistList";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -13,11 +14,13 @@ class Dashboard extends Component {
 
         this.selectArtist = this.selectArtist.bind(this);
         this.selectAlbum = this.selectAlbum.bind(this);
+        this.selectPlaylist = this.selectPlaylist.bind(this);
         this.addArtist = this.addArtist.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
 
         this.state = {
             artists: [],
+            playlists: [],
             selectedArtist: null,
             selectedAlbum: null,
             isPlaying: false,
@@ -31,6 +34,7 @@ class Dashboard extends Component {
 
     componentDidMount () {
         this.loadArtists();
+        this.loadPlaylists();
     }
 
     loadArtists() {
@@ -44,17 +48,33 @@ class Dashboard extends Component {
         );
     }
 
+    loadPlaylists() {
+        for (let i in playlists) {
+            let playlist = playlists[i]
+            
+            this.spotifyApi.getPlaylist(playlist).then(
+                function (data) {
+                    const playlists = this.state.playlists.concat(data.body); //! don't push, use concat
+                    this.setState({playlists: playlists});
+                }.bind(this),
+                function (err) {
+                    console.error(err);
+                }
+            );
+        } 
+    }
+
     selectArtist(artistId) {
         this.setState({ selectedArtist: artistId });
     }
 
     selectAlbum(albumId, albumUri) {
-        this.setState({ selectedAlbum: albumId });
-        this.playAlbum(albumId, albumUri);
+        var uris = [albumUri];
+        this.setState({selectedAlbum: albumId, isPlaying: true, tracksPlaying: uris });
     }
 
-    playAlbum(albumId, albumUri) {
-        var uris = [albumUri];
+    selectPlaylist(playlistId, playlistUri) {
+        var uris = [playlistUri];
         this.setState({ isPlaying: true, tracksPlaying: uris });
     }
 
@@ -88,6 +108,10 @@ class Dashboard extends Component {
                     selectAlbum={this.selectAlbum} />
             }
 
+            <PlaylistList
+                    playlists={this.state.playlists}
+                    selectPlaylist={this.selectPlaylist}
+            />
 
 
 
