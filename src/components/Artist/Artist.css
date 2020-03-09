@@ -20,11 +20,11 @@
 }
 
 .unselected {
-  width: 130px;
-  height: 130px;
-  background-size: 130px;
-  -webkit-filter: blur(.3px);
-  filter: blur(.3px) sepia(0.2);
+  width: 100px;
+  height: 100px;
+  background-size: 100px;
+  -webkit-filter: greyscale(.7px);
+  filter: greyscale(.7px);
 }  
 
 .artistList {
@@ -37,4 +37,17 @@
   content: "";
   display: table;
   clear: both;
+}
+
+.addArtistButton {
+  width: 50px; 
+  height: 50px;  
+  border-radius: 50%; 
+  text-align: center; 
+  background-color: rgb(21, 103, 109);
+  color: white;
+  font-size: 38px;
+  font-weight: bold;
+  float: left;
+  cursor: pointer;
 }

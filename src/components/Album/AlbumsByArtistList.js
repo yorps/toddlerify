@@ -12,7 +12,6 @@ class AlbumsByArtistList extends Component {
             loading: false
         }
 
-        this.spotifyApi = null;
         this.loadingBlocksize = 50;
 
         this.spotifyApi = new SpotifyWebApi();
@@ -25,7 +24,7 @@ class AlbumsByArtistList extends Component {
 
     //update on artist change
     componentDidUpdate(prevProps, prevState) {
-        if (this.props !== prevProps) {
+        if (this.props.artistId !== prevProps.artistId) {
             this.loadAlbums();
         }
     }

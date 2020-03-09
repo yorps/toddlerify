@@ -11,21 +11,25 @@ class ArtistList extends Component {
         this.state = {
             artists: artists
         }
+
     }
 
-
     render() {
-        return <div className="artistList">
+        return <div>
+            <div className="artistList">
+                {this.props.artists.map((artist, i) => {
+                    return (<ArtistIcon
+                        key={i}
+                        id={artist.id}
+                        name={artist.name}
+                        img={artist.images[1].url}
+                        selectArtist={this.props.selectArtist}
+                        globalSelectedArtist={this.props.selectedArtist}
+                        small="true" />)
+                })}
+                <div className="addArtistButton" onClick={this.props.addArtist}>+</div>
+            </div>
             
-            {this.state.artists.map((artistId, i) => {
-                return (<ArtistIcon 
-                    key={i} 
-                    id={artistId} 
-                    accessToken={this.props.accessToken} 
-                    selectArtist={this.props.selectArtist}
-                    globalSelectedArtist={this.props.selectedArtist}
-                    small="true" />)
-            })}
 
         </div>
 
