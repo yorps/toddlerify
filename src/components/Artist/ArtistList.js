@@ -10,9 +10,7 @@ class ArtistList extends Component {
                 {this.props.artists.map((artist, i) => {
                     return (<ArtistIcon
                         key={i}
-                        id={artist.id}
-                        name={artist.name}
-                        img={artist.images[1].url}
+                        artist={artist}
                         globalSelectedArtist={this.props.selectedArtist}
                         small="true" />)
                 })}

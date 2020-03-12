@@ -10,14 +10,18 @@ class ArtistIcon extends Component {
     render() {
         let iconClass = "artistIcon ";
         iconClass += (this.props.globalSelectedArtist == null) ? "neutral" :
-        (this.props.globalSelectedArtist === this.props.id) ? "selected" :
+        (this.props.globalSelectedArtist === this.props.artist.id) ? "selected" :
         "unselected";
+
+        let img = (this.props.artist.images && this.props.artist.images[1]) ? 
+        this.props.artist.images[1].url : "placeholder";
+
         return <div className="iconFloat">
                 <div
                     onClick={this.onClick}
                     className={iconClass}
-                    title={this.props.name}
-                    style={{ backgroundImage: `url(${this.props.img})` }} />
+                    title={this.props.artist.name}
+                    style={{ backgroundImage: `url(${img})` }} />
         </div>;
     }
 }

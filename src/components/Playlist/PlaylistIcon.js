@@ -12,11 +12,13 @@ class PlaylistIcon extends Component {
     };
 
     render() {
+        let image = this.props.playlist.images[0] ? this.props.playlist.images[0].url : "placeholder";
+
         return <div className="playlistIcon"
             onClick={this.onClick}
             id={this.props.playlist.id}
             title={this.props.playlist.name}
-            style={{ backgroundImage: `url(${this.props.playlist.images[0].url})` }}>
+            style={{ backgroundImage: `url(${image})` }}>
       
         </div>;
     }

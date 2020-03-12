@@ -61,11 +61,8 @@ class AlbumsByArtistList extends Component {
             {this.state.albums.map((album, i) => {
                 return (<AlbumIcon key={album.id}
                     className="albumIcon"
-                    id={album.id}
-                    name={album.name}
-                    imgUrl={album.images[1].url}
+                    album={album}
                     selectAlbum={this.props.selectAlbum}
-                    albumUri={album.uri}
                 />)
             })}
         </div>

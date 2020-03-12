@@ -12,15 +12,18 @@ class AlbumIcon extends Component {
     }
 
     onClick = (e) => {
-        this.props.selectAlbum(e.target.id, this.props.albumUri);
+        this.props.selectAlbum(e.target.id, this.props.album.uri);
     };
 
     render() {
+        let img = this.props.album.images && this.props.album.images[1] ?
+        this.props.album.images[1].url : 'placeholder';
+
         return <div className="albumIcon"
-            id={this.props.id}
+            id={this.props.album.id}
             onClick={this.onClick}
-            title={this.props.name}
-            style={{ backgroundImage: `url(${this.props.imgUrl})` }}>
+            title={this.props.album.name}
+            style={{ backgroundImage: `url(${img})` }}>
       
         </div>;
     }
