@@ -15,7 +15,7 @@ class Dashboard extends Component {
         this.selectArtist = this.selectArtist.bind(this);
         this.selectAlbum = this.selectAlbum.bind(this);
         this.selectPlaylist = this.selectPlaylist.bind(this);
-        this.addArtist = this.addArtist.bind(this);
+        this.addItem = this.addItem.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
 
         this.state = {
@@ -78,7 +78,7 @@ class Dashboard extends Component {
         this.setState({ isPlaying: true, tracksPlaying: uris });
     }
 
-    addArtist() {
+    addItem() {
         this.setState({ searchActive: true });
     }
 
@@ -86,6 +86,7 @@ class Dashboard extends Component {
         this.setState({searchActive: false});
     }
 
+               
     render() {
 
         return <div>
@@ -98,8 +99,7 @@ class Dashboard extends Component {
             <ArtistList
                 artists={this.state.artists}
                 selectArtist={this.selectArtist}
-                selectedArtist={this.state.selectedArtist}
-                addArtist={this.addArtist} />
+                selectedArtist={this.state.selectedArtist} />
 
             {(this.state.selectedArtist != null) > 0 &&
                 <AlbumsByArtistList
@@ -113,6 +113,7 @@ class Dashboard extends Component {
                     selectPlaylist={this.selectPlaylist}
             />
 
+            <div className="addItemButton" onClick={this.addItem}>+</div>
 
 
 

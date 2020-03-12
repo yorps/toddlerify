@@ -13,11 +13,9 @@ class ArtistList extends Component {
                         id={artist.id}
                         name={artist.name}
                         img={artist.images[1].url}
-                        selectArtist={this.props.selectArtist}
                         globalSelectedArtist={this.props.selectedArtist}
                         small="true" />)
                 })}
-                <div className="addArtistButton" onClick={this.props.addArtist}>+</div>
             </div>
             
 

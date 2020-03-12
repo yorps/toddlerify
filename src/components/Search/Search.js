@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import './Search.css';
 import SearchField from "./SearchField";
-import ArtistList from "./../Artist/ArtistList"
+import ArtistList from "./../Artist/ArtistList";
+import PlaylistList from "./../Playlist/PlaylistList";
 import SpotifyWebApi from "spotify-web-api-node"
 
 class Search extends Component {
@@ -11,7 +12,9 @@ class Search extends Component {
 
         this.state = {
             searchString: "",
-            artists: []
+            artists: [],
+            playlists: [],
+            albums: []
         }
         
         this.selectArtist = this.selectArtist.bind(this);
@@ -25,7 +28,6 @@ class Search extends Component {
     startSearch(searchString) {
         this.spotifyApi.searchArtists(searchString).then(
             function (data) {
-                console.debug("SEARCH RESULT", data.body.artists.items);
                 let artists = data.body.artists.items;
                 this.setState({artists: artists});
             }.bind(this),
@@ -33,6 +35,27 @@ class Search extends Component {
                 console.error(err);
             }
         );
+
+
+        this.spotifyApi.searchAlbums(searchString).then(
+            function (data) {
+                let albums = data.body.albums.items;
+                this.setState({albums: albums});
+            }.bind(this),
+            function (err) {
+                console.error(err);
+            }
+        )
+
+        this.spotifyApi.searchPlaylists(searchString).then(
+            function (data) {
+                let playlists = data.body.playlists.items;
+                this.setState({playlists: playlists});
+            }.bind(this),
+            function (err) {
+                console.error(err);
+            }
+        )
     }
 
     selectArtist(artistId) {
@@ -47,6 +70,10 @@ class Search extends Component {
                 artists={this.state.artists}
                 selectArtist={this.selectArtist}
                 addArtist={this.addArtist} />
+            <PlaylistList
+                    playlists={this.state.playlists}
+                    selectPlaylist={this.selectPlaylist}
+            />
         </div>
     }
 }
