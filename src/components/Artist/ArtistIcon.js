@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class ArtistIcon extends Component {
 
     onClick = (e) => {
-        this.props.selectArtist(this.props.id);
+        this.props.selectArtist(this.props.artist.id);
     };
 
 

@@ -11,6 +11,7 @@ class ArtistList extends Component {
                     return (<ArtistIcon
                         key={i}
                         artist={artist}
+                        selectArtist={this.props.selectArtist}
                         globalSelectedArtist={this.props.selectedArtist}
                         small="true" />)
                 })}
