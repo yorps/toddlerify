@@ -32,7 +32,7 @@ class Dashboard extends Component {
         this.spotifyApi.setAccessToken(this.props.match.params.accessToken);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.loadArtists();
         this.loadPlaylists();
     }
@@ -40,7 +40,7 @@ class Dashboard extends Component {
     loadArtists() {
         this.spotifyApi.getArtists(artists).then(
             function (data) {
-                this.setState({artists: data.body.artists});
+                this.setState({ artists: data.body.artists });
             }.bind(this),
             function (err) {
                 console.error(err);
@@ -51,17 +51,17 @@ class Dashboard extends Component {
     loadPlaylists() {
         for (let i in playlists) {
             let playlist = playlists[i]
-            
+
             this.spotifyApi.getPlaylist(playlist).then(
                 function (data) {
                     const playlists = this.state.playlists.concat(data.body); //! don't push, use concat
-                    this.setState({playlists: playlists});
+                    this.setState({ playlists: playlists });
                 }.bind(this),
                 function (err) {
                     console.error(err);
                 }
             );
-        } 
+        }
     }
 
     selectArtist(artistId) {
@@ -70,7 +70,7 @@ class Dashboard extends Component {
 
     selectAlbum(albumId, albumUri) {
         var uris = [albumUri];
-        this.setState({selectedAlbum: albumId, isPlaying: true, tracksPlaying: uris });
+        this.setState({ selectedAlbum: albumId, isPlaying: true, tracksPlaying: uris });
     }
 
     selectPlaylist(playlistId, playlistUri) {
@@ -83,17 +83,17 @@ class Dashboard extends Component {
     }
 
     cancelSearch() {
-        this.setState({searchActive: false});
+        this.setState({ searchActive: false });
     }
 
-               
+
     render() {
 
         return <div>
             {this.state.searchActive &&
-                <Search 
-                accessToken={this.props.match.params.accessToken}
-                onCancel={this.cancelSearch}/>
+                <Search
+                    accessToken={this.props.match.params.accessToken}
+                    onCancel={this.cancelSearch} />
             }
 
             <ArtistList
@@ -108,11 +108,13 @@ class Dashboard extends Component {
                     selectAlbum={this.selectAlbum} />
             }
 
-            <PlaylistList
+
+            {(this.state.selectedArtist != null) > 0 &&
+                <PlaylistList
                     playlists={this.state.playlists}
                     selectPlaylist={this.selectPlaylist}
-            />
-
+                />
+            }
             <div className="addItemButton" onClick={this.addItem}>+</div>
 
 
