@@ -17,7 +17,7 @@ class AlbumIcon extends Component {
 
     render() {
         let img = this.props.album.images && this.props.album.images[1] ?
-        this.props.album.images[1].url : 'placeholder';
+        this.props.album.images[1].url : './../placeholder.png';
 
         return <div className="albumIcon"
             id={this.props.album.id}

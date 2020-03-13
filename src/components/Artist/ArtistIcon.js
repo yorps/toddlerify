@@ -14,7 +14,7 @@ class ArtistIcon extends Component {
         "unselected";
 
         let img = (this.props.artist.images && this.props.artist.images[1]) ? 
-        this.props.artist.images[1].url : "placeholder";
+        this.props.artist.images[1].url : "./../placeholder.png";
 
         return <div className="iconFloat">
                 <div
