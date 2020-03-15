@@ -32,6 +32,7 @@ class PlaylistIcon extends Component {
         }
     };
 
+    
     render() {
         let image = this.props.playlist.images[0] ?
             this.props.playlist.images[0].url : "./../placeholder.png";
@@ -49,7 +50,10 @@ class PlaylistIcon extends Component {
             title={this.props.playlist.name}
             style={{ backgroundImage: `url(${image})` }}>
             {this.props.selectionMode  &&
-              <FavSelector selected="false" selectionCallback={this.props.selectPlaylist} itemId={this.props.playlist.id}/>
+              <FavSelector selected={this.props.isSelected} 
+              selectCallback={this.props.addPlaylist}
+              unselectCallback={this.props.deletePlaylist}
+              itemId={this.props.playlist.id}/>
             }
 
         </div>;

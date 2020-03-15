@@ -73,7 +73,8 @@ class Search extends Component {
                 addArtist={this.addArtist} />
             <PlaylistList
                     playlists={this.state.playlists}
-                    selectPlaylist={this.props.selectPlaylist}
+                    addPlaylist={this.props.addPlaylist}
+                    deletePlaylist={this.props.deletePlaylist}
                     playPlaylist={this.props.playPlaylist}
                     storedPlaylists={this.props.storedPlaylists}
             />

@@ -15,11 +15,19 @@ class PlaylistList extends Component {
     }
 
     startSelectionMode() {
-        console.debug("startSelectionMode");
         this.setState({selectionMode: true});
     }
+
     stopSelectionMode() {
         this.setState({selectionMode: false});
+    }
+
+    addPlaylist() {
+        //TODO
+    }
+
+    deletePlaylist() {
+        //TODO
     }
 
     render() {
@@ -27,14 +35,14 @@ class PlaylistList extends Component {
         return <div>
             <div className="playlistList">
                 {this.props.playlists.map((playlist, i) => {
-
-                    const isSelected = this.props.storedPlaylists.indexOf(playlist) >= 0;
+                    const isSelected = this.props.storedPlaylists.findIndex(i => (i.id === playlist.id)) >= 0; 
 
                     return (<PlaylistIcon
                         key={i}
                         playlist={playlist}
                         playPlaylist={this.props.playPlaylist}
-                        selectPlaylist={this.props.selectPlaylist}
+                        addPlaylist={this.props.addPlaylist}
+                        deletePlaylist={this.props.deletePlaylist}
                         selectionMode={this.state.selectionMode}
                         startSelectionMode={this.startSelectionMode}
                         stopSelectionMode={this.stopSelectionMode}

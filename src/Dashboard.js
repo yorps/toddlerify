@@ -16,7 +16,8 @@ class Dashboard extends Component {
         this.playAlbum = this.playAlbum.bind(this);
         this.selectAlbum = this.selectAlbum.bind(this);
         this.playPlaylist = this.playPlaylist.bind(this);
-        this.selectPlaylist = this.selectPlaylist.bind(this);
+        this.addPlaylist = this.addPlaylist.bind(this);
+        this.deletePlaylist = this.deletePlaylist.bind(this);
         this.addItem = this.addItem.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
 
@@ -53,11 +54,12 @@ class Dashboard extends Component {
 
     loadPlaylists() {
         for (let i in playlists) {
-            let playlist = playlists[i]
+            let playlistId = playlists[i]
 
-            this.spotifyApi.getPlaylist(playlist).then(
+            this.spotifyApi.getPlaylist(playlistId).then(
                 function (data) {
                     const playlists = this.state.playlists.concat(data.body); //! don't push, use concat
+                    console.debug("add playlist");
                     this.setState({ playlists: playlists });
                 }.bind(this),
                 function (err) {
@@ -81,11 +83,21 @@ class Dashboard extends Component {
         this.setState({ albums: albums });  
     }
 
-    selectPlaylist(playlistId) {
-        console.debug("SELECT PLAYLIST WITH ID " + playlistId);
-        //const newPlaylist = /*API_REQUEST*/
-        //const playlists = this.state.playlists.concat(playlist); 
-        //this.setState({ playlists: playlists });
+    /* Add Playlist */
+    addPlaylist(playlistId) {
+        this.spotifyApi.getPlaylist(playlistId).then(
+            function (data) {
+                const playlists = this.state.playlists.concat(data.body); //! don't push, use concat
+                this.setState({ playlists: playlists });
+            }.bind(this),
+            function (err) {
+                console.error(err);
+            }
+        );
+    }
+
+    deletePlaylist(playlistId) {
+        //TODO
     }
 
     playPlaylist(playlistId, playlistUri) {
@@ -112,7 +124,8 @@ class Dashboard extends Component {
                     storedAlbums={this.state.albums}
                     storedPlaylists={this.state.playlists}
                     playPlaylist={this.playPlaylist}
-                    selectPlaylist={this.selectPlaylist}
+                    addPlaylist={this.addPlaylist}
+                    deletePlaylist={this.deletePlaylist}
                     storedArtists={this.state.artists} />
             }
 
@@ -129,12 +142,13 @@ class Dashboard extends Component {
             }
 
 
-            {(this.state.selectedArtist != null) > 0 &&
+            {(this.state.selectedArtist == null) > 0 &&
                 <PlaylistList
                     playlists={this.state.playlists}
                     storedPlaylists={this.state.playlists}
                     playPlaylist={this.playPlaylist}
-                    selectPlaylist={this.selectPlaylist}
+                    addPlaylist={this.addPlaylist}
+                    deletePlaylist={this.deletePlaylist}
                 />
             }
             <div className="addItemButton" onClick={this.addItem}>+</div>
