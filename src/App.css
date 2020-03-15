@@ -40,3 +40,16 @@ body {
   float: left;
   cursor: pointer;
 }
+
+.selectionOverlay {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  color: black;
+  background-color: white;
+  opacity: 0.3;
+}
+
+.selectionOverlay .isSelected {
+  color: red;
+}

@@ -13,7 +13,9 @@ class Dashboard extends Component {
         super(props);
 
         this.selectArtist = this.selectArtist.bind(this);
+        this.playAlbum = this.playAlbum.bind(this);
         this.selectAlbum = this.selectAlbum.bind(this);
+        this.playPlaylist = this.playPlaylist.bind(this);
         this.selectPlaylist = this.selectPlaylist.bind(this);
         this.addItem = this.addItem.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
@@ -21,6 +23,7 @@ class Dashboard extends Component {
         this.state = {
             artists: [],
             playlists: [],
+            albums: [],
             selectedArtist: null,
             selectedAlbum: null,
             isPlaying: false,
@@ -68,12 +71,24 @@ class Dashboard extends Component {
         this.setState({ selectedArtist: artistId });
     }
 
-    selectAlbum(albumId, albumUri) {
+    playAlbum(albumId, albumUri) {
         var uris = [albumUri];
         this.setState({ selectedAlbum: albumId, isPlaying: true, tracksPlaying: uris });
     }
 
-    selectPlaylist(playlistId, playlistUri) {
+    selectAlbum(albumId) {
+        const albums = this.state.albums.concat(albumId);
+        this.setState({ albums: albums });  
+    }
+
+    selectPlaylist(playlistId) {
+        console.debug("SELECT PLAYLIST WITH ID " + playlistId);
+        //const newPlaylist = /*API_REQUEST*/
+        //const playlists = this.state.playlists.concat(playlist); 
+        //this.setState({ playlists: playlists });
+    }
+
+    playPlaylist(playlistId, playlistUri) {
         var uris = [playlistUri];
         this.setState({ isPlaying: true, tracksPlaying: uris });
     }
@@ -93,7 +108,12 @@ class Dashboard extends Component {
             {this.state.searchActive &&
                 <Search
                     accessToken={this.props.match.params.accessToken}
-                    onCancel={this.cancelSearch} />
+                    onCancel={this.cancelSearch}
+                    storedAlbums={this.state.albums}
+                    storedPlaylists={this.state.playlists}
+                    playPlaylist={this.playPlaylist}
+                    selectPlaylist={this.selectPlaylist}
+                    storedArtists={this.state.artists} />
             }
 
             <ArtistList
@@ -105,13 +125,15 @@ class Dashboard extends Component {
                 <AlbumsByArtistList
                     accessToken={this.props.match.params.accessToken}
                     artistId={this.state.selectedArtist}
-                    selectAlbum={this.selectAlbum} />
+                    playAlbum={this.playAlbum} />
             }
 
 
             {(this.state.selectedArtist != null) > 0 &&
                 <PlaylistList
                     playlists={this.state.playlists}
+                    storedPlaylists={this.state.playlists}
+                    playPlaylist={this.playPlaylist}
                     selectPlaylist={this.selectPlaylist}
                 />
             }

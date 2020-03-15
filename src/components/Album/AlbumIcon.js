@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import FavSelector from "./../FavSelector/FavSelector"
 
 class AlbumIcon extends Component {
 
@@ -16,23 +18,23 @@ class AlbumIcon extends Component {
     }
 
     onClick = (e) => {
-        this.props.selectAlbum(e.target.id, this.props.album.uri);
+        this.props.playAlbum(e.target.id, this.props.album.uri);
     };
 
     onLongClick = (e) => {
-        console.debug("long click");
+        this.props.selectionCallback();
     };
 
-    handleButtonPress() {
+    handleButtonPress(e) {
         this.startPress = (new Date()).getTime();
         this.buttonPressTimer = setTimeout(this.onLongClick.bind(this), 500);
     }
 
-    handleButtonRelease() {
+    handleButtonRelease(e) {
         clearTimeout(this.buttonPressTimer);
         let endPress = (new Date()).getTime();
         if (endPress - this.startPress < 500) {
-            this.onClick();
+            this.onClick(e);
         }
     }
 
@@ -40,7 +42,10 @@ class AlbumIcon extends Component {
         const img = this.props.album.images && this.props.album.images[1] ?
             this.props.album.images[1].url : './../placeholder.png';
 
-        return <div className="albumIcon"
+
+        let iconClass = "albumIcon";
+        if (this.props.isSelected) iconClass += " itemSelected";
+        return <div className={iconClass}
             onTouchStart={this.handleButtonPress}
             onTouchEnd={this.handleButtonRelease}
             onMouseDown={this.handleButtonPress}
@@ -50,8 +55,21 @@ class AlbumIcon extends Component {
             title={this.props.album.name}
             style={{ backgroundImage: `url(${img})` }}>
 
+            {this.props.selectionMode  &&
+              <FavSelector selected="false" selectionCallback={this.props.selectionCallback}/>
+            }
+
         </div>;
     }
 }
 
 export default AlbumIcon;
+
+
+AlbumIcon.propTypes = {
+    album: PropTypes.object,
+    playAlbum: PropTypes.func,
+    selectionMode: PropTypes.bool,
+    selectionCallback: PropTypes.func,
+    isSelected: PropTypes.bool
+};

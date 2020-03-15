@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import AlbumIcon from "./AlbumIcon"
 import SpotifyWebApi from 'spotify-web-api-node';
 import "./Album.css"
-
 
 
 class AlbumsByArtistList extends Component {
@@ -11,10 +11,12 @@ class AlbumsByArtistList extends Component {
         super(props);
         this.state = {
             albums: [],
-            loading: false
+            loading: false,
+            selectionMode: false
         }
 
         this.loadingBlocksize = 50;
+        this.selectionCallback = this.selectionCallback.bind(this);
 
         this.spotifyApi = new SpotifyWebApi();
         this.spotifyApi.setAccessToken(this.props.accessToken);
@@ -58,13 +60,19 @@ class AlbumsByArtistList extends Component {
         }
     }
 
+    selectionCallback() {
+        this.setState({selectionMode: true});
+    }
+
     render() {
         return <div className="albumList">
             {this.state.albums.map((album, i) => {
                 return (<AlbumIcon key={album.id}
                     className="albumIcon"
                     album={album}
-                    selectAlbum={this.props.selectAlbum}
+                    playAlbum={this.props.playAlbum}
+                    selectionCallback={this.selectionCallback}
+                    selectionMode={this.state.selectionMode}
                 />)
             })}
         </div>
@@ -76,6 +84,12 @@ class AlbumsByArtistList extends Component {
 export default AlbumsByArtistList;
 
 
+AlbumsByArtistList.propTypes = {
+    accessToken: PropTypes.string,
+    artistId: PropTypes.string,
+    playAlbum: PropTypes.func,
+    selectedAlbums: PropTypes.object
+};
 /*
 
 ALBUM EXAMPLE

@@ -68,11 +68,14 @@ class Search extends Component {
             <SearchField search={this.startSearch}/>
             <ArtistList
                 artists={this.state.artists}
+                storedArtists={this.props.storedArtists}
                 selectArtist={this.selectArtist}
                 addArtist={this.addArtist} />
             <PlaylistList
                     playlists={this.state.playlists}
-                    selectPlaylist={this.selectPlaylist}
+                    selectPlaylist={this.props.selectPlaylist}
+                    playPlaylist={this.props.playPlaylist}
+                    storedPlaylists={this.props.storedPlaylists}
             />
         </div>
     }
