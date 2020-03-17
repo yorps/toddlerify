@@ -53,7 +53,8 @@ class PlaylistIcon extends Component {
               <FavSelector selected={this.props.isSelected} 
               selectCallback={this.props.addPlaylist}
               unselectCallback={this.props.deletePlaylist}
-              itemId={this.props.playlist.id}/>
+              itemId={this.props.playlist.id}
+              item={this.props.playlist}/>
             }
 
         </div>;

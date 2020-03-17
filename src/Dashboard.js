@@ -84,16 +84,9 @@ class Dashboard extends Component {
     }
 
     /* Add Playlist */
-    addPlaylist(playlistId) {
-        this.spotifyApi.getPlaylist(playlistId).then(
-            function (data) {
-                const playlists = this.state.playlists.concat(data.body); //! don't push, use concat
-                this.setState({ playlists: playlists });
-            }.bind(this),
-            function (err) {
-                console.error(err);
-            }
-        );
+    addPlaylist(playlist) {
+        const playlists = this.state.playlists.concat(playlist); //! don't push, use concat
+        this.setState({ playlists: playlists })
     }
 
     deletePlaylist(playlistId) {
@@ -103,6 +96,15 @@ class Dashboard extends Component {
     playPlaylist(playlistId, playlistUri) {
         var uris = [playlistUri];
         this.setState({ isPlaying: true, tracksPlaying: uris });
+    }
+
+    addAlbum(album) {
+        const albums = this.state.albums.concat(album);
+        this.setState({ albums: albums });
+    }
+
+    deleteAlbum(album) {
+
     }
 
     addItem() {
@@ -122,6 +124,9 @@ class Dashboard extends Component {
                     accessToken={this.props.match.params.accessToken}
                     onCancel={this.cancelSearch}
                     storedAlbums={this.state.albums}
+                    playAlbum={this.playAlbum}
+                    addAlbum={this.addAlbum}
+                    deleteAlbum={this.deleteAlbum}
                     storedPlaylists={this.state.playlists}
                     playPlaylist={this.playPlaylist}
                     addPlaylist={this.addPlaylist}
@@ -129,10 +134,12 @@ class Dashboard extends Component {
                     storedArtists={this.state.artists} />
             }
 
+        {!this.state.searchActive &&
             <ArtistList
                 artists={this.state.artists}
                 selectArtist={this.selectArtist}
                 selectedArtist={this.state.selectedArtist} />
+        }
 
             {(this.state.selectedArtist != null) > 0 &&
                 <AlbumsByArtistList

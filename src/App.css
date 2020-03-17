@@ -53,3 +53,8 @@ body {
 .selectionOverlay .isSelected {
   color: red;
 }
+
+
+h3{
+  clear:left;
+}

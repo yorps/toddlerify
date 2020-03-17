@@ -21,22 +21,24 @@ class AlbumIcon extends Component {
         this.props.playAlbum(e.target.id, this.props.album.uri);
     };
 
-    onLongClick = (e) => {
-        this.props.selectionCallback();
-    };
-
-    handleButtonPress(e) {
-        this.startPress = (new Date()).getTime();
-        this.buttonPressTimer = setTimeout(this.onLongClick.bind(this), 500);
+    onLongClick () {
+        this.props.startSelectionMode();
     }
 
-    handleButtonRelease(e) {
+    handleButtonPress = (e) => {
+        this.startPress = (new Date()).getTime();
+        this.buttonPressTimer = setTimeout(this.onLongClick.bind(this), 500);
+    };
+
+    handleButtonRelease = (e) => {
         clearTimeout(this.buttonPressTimer);
         let endPress = (new Date()).getTime();
         if (endPress - this.startPress < 500) {
             this.onClick(e);
         }
-    }
+    };
+
+
 
     render() {
         const img = this.props.album.images && this.props.album.images[1] ?
@@ -56,7 +58,11 @@ class AlbumIcon extends Component {
             style={{ backgroundImage: `url(${img})` }}>
 
             {this.props.selectionMode  &&
-              <FavSelector selected="false" selectionCallback={this.props.selectionCallback}/>
+              <FavSelector selected={this.props.isSelected} 
+              selectCallback={this.props.addAlbum}
+              unselectCallback={this.props.deleteAlbum}
+              item={this.props.album}
+              itemId={this.props.album.id}/>
             }
 
         </div>;

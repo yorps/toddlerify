@@ -15,12 +15,12 @@ class FavSelector extends Component {
 
     select(e) {
         e.stopPropagation();
-        this.props.selectCallback(this.props.itemId)
+        this.props.selectCallback(this.props.item);
     }
 
     unselect(e) {
         e.stopPropagation();
-        this.props.unselectCallback(this.props.itemId);
+        this.props.unselectCallback(this.props.item);
     }
 
     render() {

@@ -33,6 +33,7 @@ class PlaylistList extends Component {
     render() {
 
         return <div>
+            <h3>Playlists</h3>
             <div className="playlistList">
                 {this.props.playlists.map((playlist, i) => {
                     const isSelected = this.props.storedPlaylists.findIndex(i => (i.id === playlist.id)) >= 0; 
@@ -64,5 +65,6 @@ PlaylistList.propTypes = {
     playlists: PropTypes.arrayOf(PropTypes.object),
     storedPlaylists: PropTypes.arrayOf(PropTypes.object),
     playPlaylist: PropTypes.func,
-    selectPlaylist: PropTypes.func
+    addPlaylist: PropTypes.func,
+    deletePlaylist: PropTypes.func
 };
