@@ -12,4 +12,14 @@
 
 .searchInput {
     width: 80%;
+    float:left;
+}
+
+.backIcon {
+    float:left;
+    margin-right: 20px;
+}
+
+.clear {
+    clear: both;
 }

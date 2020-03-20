@@ -5,6 +5,8 @@ import ArtistList from "./../Artist/ArtistList";
 import PlaylistList from "./../Playlist/PlaylistList";
 import SpotifyWebApi from "spotify-web-api-node"
 import AlbumList from "../Album/AlbumList";
+import { IconContext } from "react-icons";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 class Search extends Component {
 
@@ -65,8 +67,19 @@ class Search extends Component {
 
     render() {
         return <div className="search">
-            <button onClick={this.props.onCancel}>Go Back</button>
-            <SearchField search={this.startSearch} />
+
+            <div>
+
+
+                <IconContext.Provider value={{ className: "backIcon" }}>
+                    <div>
+                        <FaArrowAltCircleLeft onClick={this.props.onCancel} />
+                    </div>
+                </IconContext.Provider>
+
+                <SearchField search={this.startSearch} />
+            </div>
+            <div class="clear"/>
             <ArtistList
                 artists={this.state.artists}
                 storedArtists={this.props.storedArtists}
