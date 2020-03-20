@@ -25,6 +25,7 @@ body {
 .footer {
   position: fixed;
   bottom: 0px;
+  left: 0px;
   width: 100%
 }
 
@@ -53,7 +54,6 @@ body {
 .selectionOverlay .isSelected {
   color: red;
 }
-
 
 h3{
   clear:left;
