@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PlaylistIcon from "./PlaylistIcon";
 import PropTypes from "prop-types";
 import './Playlist.css';
+import { IconContext } from "react-icons";
+import { MdQueueMusic } from "react-icons/md";
 
 class PlaylistList extends Component {
 
@@ -15,11 +17,11 @@ class PlaylistList extends Component {
     }
 
     startSelectionMode() {
-        this.setState({selectionMode: true});
+        this.setState({ selectionMode: true });
     }
 
     stopSelectionMode() {
-        this.setState({selectionMode: false});
+        this.setState({ selectionMode: false });
     }
 
     addPlaylist() {
@@ -33,10 +35,12 @@ class PlaylistList extends Component {
     render() {
 
         return <div>
-            <h3>Playlists</h3>
+            <IconContext.Provider value={{ className: "titleIcon" }}>
+                <MdQueueMusic title="Playlists" />
+            </IconContext.Provider>
             <div className="playlistList">
                 {this.props.playlists.map((playlist, i) => {
-                    const isSelected = this.props.storedPlaylists.findIndex(i => (i.id === playlist.id)) >= 0; 
+                    const isSelected = this.props.storedPlaylists.findIndex(i => (i.id === playlist.id)) >= 0;
 
                     return (<PlaylistIcon
                         key={i}
@@ -48,10 +52,10 @@ class PlaylistList extends Component {
                         startSelectionMode={this.startSelectionMode}
                         stopSelectionMode={this.stopSelectionMode}
                         isSelected={isSelected}
-                        />)
+                    />)
                 })}
             </div>
-            
+
 
         </div>
 

@@ -58,3 +58,8 @@ body {
 h3{
   clear:left;
 }
+
+.titleIcon {
+  clear:left;
+  font-size: 50px;
+}

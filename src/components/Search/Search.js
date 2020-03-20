@@ -92,6 +92,7 @@ class Search extends Component {
                 playPlaylist={this.props.playPlaylist}
                 storedPlaylists={this.props.storedPlaylists}
             />
+            <div class="clear"/>
             <AlbumList
                 albums={this.state.albums}
                 addAlbum={this.props.addAlbum}

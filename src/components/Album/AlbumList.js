@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import AlbumIcon from "./AlbumIcon";
 import PropTypes from "prop-types";
 import './Album.css';
+import { IconContext } from "react-icons";
+import { MdMusicVideo } from "react-icons/md";
 
 class AlbumList extends Component {
 
@@ -25,7 +27,9 @@ class AlbumList extends Component {
     render() {
 
         return <div>
-            <h3>Albums</h3>
+            <IconContext.Provider value={{ className: "titleIcon" }}>
+                <MdMusicVideo title="Albums" />
+            </IconContext.Provider>
             <div className="albumList">
                 {this.props.albums.map((album, i) => {
                     const isSelected = this.props.storedAlbums.findIndex(i => (i.id === album.id)) >= 0; 
