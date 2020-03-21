@@ -38,7 +38,7 @@ body {
   color: white;
   font-size: 38px;
   font-weight: bold;
-  float: left;
+  margin: 10px auto;
   cursor: pointer;
 }
 

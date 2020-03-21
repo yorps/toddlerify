@@ -158,6 +158,9 @@ class Dashboard extends Component {
                     deletePlaylist={this.deletePlaylist}
                 />
             }
+
+            <div className="clear"/>
+            
             <div className="addItemButton" onClick={this.addItem}>+</div>
 
 
