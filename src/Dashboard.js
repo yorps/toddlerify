@@ -188,7 +188,7 @@ class Dashboard extends Component {
                     selectedArtist={this.state.selectedArtist} />
             }
 
-            {(this.state.selectedArtist != null) > 0 &&
+            {(this.state.selectedArtist != null) > 0 && 
                 <AlbumsByArtistList
                     accessToken={this.props.match.params.accessToken}
                     artistId={this.state.selectedArtist}
@@ -196,7 +196,7 @@ class Dashboard extends Component {
             }
 
 
-            {(this.state.selectedArtist == null) > 0 &&
+            {(this.state.selectedArtist == null) > 0 && !this.state.searchActive  &&
                 <PlaylistList
                     playlists={this.state.playlists}
                     storedPlaylists={this.state.playlists}
@@ -204,13 +204,11 @@ class Dashboard extends Component {
                     addPlaylist={this.addPlaylist}
                     deletePlaylist={this.deletePlaylist}
                 />
-
             }
-
 
             <div className="clear" />
 
-            {(this.state.selectedArtist == null) > 0 &&
+            {(this.state.selectedArtist == null) > 0 && !this.state.searchActive  &&
                 <AlbumList
                     albums={this.state.albums}
                     addAlbum={this.asddAlbum}
