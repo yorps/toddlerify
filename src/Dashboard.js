@@ -3,9 +3,10 @@ import './App.css';
 import { initialData } from "./config";
 import SpotifyWebApi from "spotify-web-api-node";
 import ArtistList from "./components/Artist/ArtistList";
+import AlbumList from "./components/Album/AlbumList";
 import AlbumsByArtistList from "./components/Album/AlbumsByArtistList";
 import SpotifyPlayer from 'react-spotify-web-playback';
-import Search from "./components/Search/Search"
+import Search from "./components/Search/Search";
 import PlaylistList from "./components/Playlist/PlaylistList";
 
 class Dashboard extends Component {
@@ -14,6 +15,7 @@ class Dashboard extends Component {
 
         this.selectArtist = this.selectArtist.bind(this);
         this.playAlbum = this.playAlbum.bind(this);
+        this.addAlbum = this.addAlbum.bind(this);
         this.selectAlbum = this.selectAlbum.bind(this);
         this.playPlaylist = this.playPlaylist.bind(this);
         this.addPlaylist = this.addPlaylist.bind(this);
@@ -43,7 +45,7 @@ class Dashboard extends Component {
     componentDidMount() {
 
         var isStored = localStorage.getItem("toddlify");
-        if (!isStored)  {
+        if (!isStored) {
             // initial load from config
             this.loadConfigData();
             localStorage.setItem("toddlify", "stored");
@@ -53,7 +55,7 @@ class Dashboard extends Component {
             this.artistIds = this.artistIds ? this.artistIds.split(',') : [];
             this.playlistIds = localStorage.getItem("toddlify_playlists");
             this.playlistIds = this.playlistIds ? this.playlistIds.split(',') : [];
-            this.albumIds =  localStorage.getItem("toddlify_albums");
+            this.albumIds = localStorage.getItem("toddlify_albums");
             this.albumIds = this.albumIds ? this.albumIds.split(',') : [];
         }
 
@@ -69,7 +71,7 @@ class Dashboard extends Component {
      * Only for the first signup or after a reset of storage data.
      */
     loadConfigData() {
-        
+
         this.artistIds = initialData.artists;
         this.playlistIds = initialData.playlists;
         this.albumIds = initialData.albums;
@@ -82,7 +84,7 @@ class Dashboard extends Component {
      * Save 
     saveToStorage() 
     */
-    
+
     loadArtists() {
         this.spotifyApi.getArtists(this.artistIds).then(
             function (data) {
@@ -121,7 +123,7 @@ class Dashboard extends Component {
 
     selectAlbum(albumId) {
         const albums = this.state.albums.concat(albumId);
-        this.setState({ albums: albums });  
+        this.setState({ albums: albums });
     }
 
     /* Add Playlist */
@@ -179,12 +181,12 @@ class Dashboard extends Component {
                     storedArtists={this.state.artists} />
             }
 
-        {!this.state.searchActive &&
-            <ArtistList
-                artists={this.state.artists}
-                selectArtist={this.selectArtist}
-                selectedArtist={this.state.selectedArtist} />
-        }
+            {!this.state.searchActive &&
+                <ArtistList
+                    artists={this.state.artists}
+                    selectArtist={this.selectArtist}
+                    selectedArtist={this.state.selectedArtist} />
+            }
 
             {(this.state.selectedArtist != null) > 0 &&
                 <AlbumsByArtistList
@@ -202,10 +204,25 @@ class Dashboard extends Component {
                     addPlaylist={this.addPlaylist}
                     deletePlaylist={this.deletePlaylist}
                 />
+
             }
 
-            <div className="clear"/>
-            
+
+            <div className="clear" />
+
+            {(this.state.selectedArtist == null) > 0 &&
+                <AlbumList
+                    albums={this.state.albums}
+                    addAlbum={this.asddAlbum}
+                    deleteAlbum={this.deleteAlbum}
+                    playAlbum={this.playAlbum}
+                    storedAlbums={this.state.albums}
+                />
+            }
+
+
+            <div className="clear" />
+
             <div className="addItemButton" onClick={this.addItem}>+</div>
 
 
