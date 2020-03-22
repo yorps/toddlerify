@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import './App.css';
-import { artists, playlists } from "./config";
+import { initialData } from "./config";
 import SpotifyWebApi from "spotify-web-api-node";
 import ArtistList from "./components/Artist/ArtistList";
 import AlbumsByArtistList from "./components/Album/AlbumsByArtistList";
@@ -21,6 +21,10 @@ class Dashboard extends Component {
         this.addItem = this.addItem.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
 
+        this.artistIds = [];
+        this.playlistIds = [];
+        this.albumIds = [];
+
         this.state = {
             artists: [],
             playlists: [],
@@ -37,12 +41,50 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+
+        var isStored = localStorage.getItem("toddlify");
+        if (!isStored)  {
+            // initial load from config
+            this.loadConfigData();
+            localStorage.setItem("toddlify", "stored");
+        } else {
+            // load from local storage
+            this.artistIds = localStorage.getItem("toddlify_artists");
+            this.artistIds = this.artistIds ? this.artistIds.split(',') : [];
+            this.playlistIds = localStorage.getItem("toddlify_playlists");
+            this.playlistIds = this.playlistIds ? this.playlistIds.split(',') : [];
+            this.albumIds =  localStorage.getItem("toddlify_albums");
+            this.albumIds = this.albumIds ? this.albumIds.split(',') : [];
+        }
+
         this.loadArtists();
         this.loadPlaylists();
+        //this.loadAlbums();
     }
 
+
+
+    /**
+     * Initial loading config data. 
+     * Only for the first signup or after a reset of storage data.
+     */
+    loadConfigData() {
+        
+        this.artistIds = initialData.artists;
+        this.playlistIds = initialData.playlists;
+        this.albumIds = initialData.albums;
+        localStorage.setItem("toddlify_artists", this.artistIds.toString());
+        localStorage.setItem("toddlify_playlists", this.playlistIds.toString());
+        localStorage.setItem("toddlify_albums", this.albumIds.toString());
+    }
+
+    /*
+     * Save 
+    saveToStorage() 
+    */
+    
     loadArtists() {
-        this.spotifyApi.getArtists(artists).then(
+        this.spotifyApi.getArtists(this.artistIds).then(
             function (data) {
                 this.setState({ artists: data.body.artists });
             }.bind(this),
@@ -53,13 +95,12 @@ class Dashboard extends Component {
     }
 
     loadPlaylists() {
-        for (let i in playlists) {
-            let playlistId = playlists[i]
+        for (let i in this.playlistIds) {
+            let playlistId = this.playlistIds[i]
 
             this.spotifyApi.getPlaylist(playlistId).then(
                 function (data) {
                     const playlists = this.state.playlists.concat(data.body); //! don't push, use concat
-                    console.debug("add playlist");
                     this.setState({ playlists: playlists });
                 }.bind(this),
                 function (err) {
@@ -86,7 +127,9 @@ class Dashboard extends Component {
     /* Add Playlist */
     addPlaylist(playlist) {
         const playlists = this.state.playlists.concat(playlist); //! don't push, use concat
-        this.setState({ playlists: playlists })
+        this.setState({ playlists: playlists });
+        this.playlistIds.push(playlist.id);
+        localStorage.setItem("toddlify_playlists", this.playlistIds.toString());
     }
 
     deletePlaylist(playlistId) {
@@ -101,10 +144,12 @@ class Dashboard extends Component {
     addAlbum(album) {
         const albums = this.state.albums.concat(album);
         this.setState({ albums: albums });
+        this.albumIds.push(album.id);
+        localStorage.setItem("toddlify_albums", this.albumIds.toString());
     }
 
     deleteAlbum(album) {
-
+        //TODO
     }
 
     addItem() {
