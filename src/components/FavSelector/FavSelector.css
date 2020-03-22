@@ -1,9 +1,11 @@
 .heart {
-    size: 20px;
+    position: absolute;
+    font-size: 40px;
     color: white;
 }
 
-.heartSelected{
-    size: 30px;
+.heartSelected {
+    position: absolute;
+    font-size: 40px;
     color: red;
 }
