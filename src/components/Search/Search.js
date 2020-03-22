@@ -79,7 +79,7 @@ class Search extends Component {
 
                 <SearchField search={this.startSearch} />
             </div>
-            <div class="clear"/>
+            <div className="clear"/>
             <ArtistList
                 artists={this.state.artists}
                 storedArtists={this.props.storedArtists}
