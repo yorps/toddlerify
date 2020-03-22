@@ -15,7 +15,7 @@ class PlaylistIcon extends Component {
         this.props.playPlaylist(e.target.id, this.props.playlist.uri);
     };
 
-    onLongClick () {
+    onLongClick() {
         this.props.startSelectionMode();
     }
 
@@ -32,13 +32,13 @@ class PlaylistIcon extends Component {
         }
     };
 
-    
+
     render() {
         let image = this.props.playlist.images[0] ?
             this.props.playlist.images[0].url : "./../placeholder.png";
 
-            let iconClass = "playlistIcon";
-            if (this.props.isSelected) iconClass += " selected";
+        let iconClass = "playlistIcon";
+        if (this.props.isSelected) iconClass += " selected";
 
         return <div className={iconClass}
             onTouchStart={this.handleButtonPress}
@@ -49,12 +49,12 @@ class PlaylistIcon extends Component {
             id={this.props.playlist.id}
             title={this.props.playlist.name}
             style={{ backgroundImage: `url(${image})` }}>
-            {this.props.selectionMode  &&
-              <FavSelector selected={this.props.isSelected} 
-              selectCallback={this.props.addPlaylist}
-              unselectCallback={this.props.deletePlaylist}
-              itemId={this.props.playlist.id}
-              item={this.props.playlist}/>
+            {this.props.selectionMode &&
+                <FavSelector selected={this.props.isSelected}
+                    selectCallback={this.props.addPlaylist}
+                    unselectCallback={this.props.deletePlaylist}
+                    itemId={this.props.playlist.id}
+                    item={this.props.playlist} />
             }
 
         </div>;

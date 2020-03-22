@@ -2,10 +2,12 @@
     position: absolute;
     font-size: 40px;
     color: white;
+    z-index: 50;
 }
 
 .heartSelected {
     position: absolute;
     font-size: 40px;
     color: red;
+    z-index: 50;
 }

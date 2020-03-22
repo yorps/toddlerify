@@ -211,7 +211,7 @@ class Dashboard extends Component {
             {(this.state.selectedArtist == null) > 0 && !this.state.searchActive  &&
                 <AlbumList
                     albums={this.state.albums}
-                    addAlbum={this.asddAlbum}
+                    addAlbum={this.addAlbum}
                     deleteAlbum={this.deleteAlbum}
                     playAlbum={this.playAlbum}
                     storedAlbums={this.state.albums}
