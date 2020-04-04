@@ -37,7 +37,7 @@ class SearchField extends Component {
 
     render() {
         return <div>
-            <input onChange={this.handleInputChange} className="searchInput form-control" type="text"></input>
+            <input onChange={this.handleInputChange} className="searchInput form-control" type="text" placeholder="Search for artists, albums or playlists"></input>
         </div>
     }
 }
