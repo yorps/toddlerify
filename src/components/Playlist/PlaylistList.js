@@ -17,10 +17,13 @@ class PlaylistList extends Component {
 
     render() {
 
+        const showList = this.props.playlists.length > 0;
         return <div>
-            <IconContext.Provider value={{ className: "titleIcon" }}>
-                <MdQueueMusic title="Playlists" />
-            </IconContext.Provider>
+            {showList &&
+                <IconContext.Provider value={{ className: "titleIcon" }}>
+                    <MdQueueMusic title="Playlists" />
+                </IconContext.Provider>
+            }
             <div className="playlistList">
                 {this.props.playlists.map((playlist, i) => {
                     const isSelected = this.props.storedPlaylists.findIndex(i => (i.id === playlist.id)) >= 0;
