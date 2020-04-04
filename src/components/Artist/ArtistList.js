@@ -13,6 +13,8 @@ class ArtistList extends Component {
                         artist={artist}
                         selectArtist={this.props.selectArtist}
                         globalSelectedArtist={this.props.selectedArtist}
+                        selectionMode={this.props.selectionMode}
+                        startSelectionMode={this.props.startSelectionMode}
                         small="true" />)
                 })}
             </div>

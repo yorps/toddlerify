@@ -26,6 +26,9 @@ class Search extends Component {
         this.spotifyApi = new SpotifyWebApi();
         this.spotifyApi.setAccessToken(this.props.accessToken);
         this.startSearch = this.startSearch.bind(this);
+        this.startSelectionMode = this.startSelectionMode.bind(this);
+        this.stopSelectionMode = this.stopSelectionMode.bind(this);
+
     }
 
     startSearch(searchString) {
@@ -65,12 +68,26 @@ class Search extends Component {
         //TODO
     }
 
+    startSelectionMode() {
+        this.setState({ selectionMode: true });
+    }
+
+    stopSelectionMode(event) {
+        if (!this.state.selectionMode) return;
+        let el = event.target;
+        while ((el = el.parentElement)) {
+            console.debug(el.className);
+            if (el.className === "favSelector") {
+                return;
+            }
+        }
+    
+        this.setState({ selectionMode: false });
+    }
+
     render() {
-        return <div className="search">
-
+        return <div className="search" onMouseDown={this.stopSelectionMode}>
             <div>
-
-
                 <IconContext.Provider value={{ className: "backIcon" }}>
                     <div>
                         <FaArrowAltCircleLeft onClick={this.props.onCancel} />
@@ -91,6 +108,8 @@ class Search extends Component {
                 deletePlaylist={this.props.deletePlaylist}
                 playPlaylist={this.props.playPlaylist}
                 storedPlaylists={this.props.storedPlaylists}
+                selectionMode={this.state.selectionMode}
+                startSelectionMode={this.startSelectionMode}
             />
             <div className="clear"/>
             <AlbumList
@@ -99,6 +118,8 @@ class Search extends Component {
                 deleteAlbum={this.props.deleteAlbum}
                 playAlbum={this.props.playAlbum}
                 storedAlbums={this.props.storedAlbums}
+                selectionMode={this.state.selectionMode}
+                startSelectionMode={this.startSelectionMode}
             />
         </div>
     }

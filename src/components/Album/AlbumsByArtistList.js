@@ -71,8 +71,6 @@ class AlbumsByArtistList extends Component {
                     className="albumIcon"
                     album={album}
                     playAlbum={this.props.playAlbum}
-                    selectionCallback={this.selectionCallback}
-                    selectionMode={this.state.selectionMode}
                 />)
             })}
         </div>

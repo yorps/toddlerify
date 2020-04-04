@@ -22,6 +22,8 @@ class Dashboard extends Component {
         this.deletePlaylist = this.deletePlaylist.bind(this);
         this.addItem = this.addItem.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
+        this.startSelectionMode = this.startSelectionMode.bind(this);
+        this.stopSelectionMode = this.stopSelectionMode.bind(this);
 
         this.artistIds = [];
         this.playlistIds = [];
@@ -35,7 +37,8 @@ class Dashboard extends Component {
             selectedAlbum: null,
             isPlaying: false,
             searchActive: false,
-            tracksPlaying: []
+            tracksPlaying: [],
+            selectionMode: false
         }
 
         this.spotifyApi = new SpotifyWebApi();
@@ -61,7 +64,8 @@ class Dashboard extends Component {
 
         this.loadArtists();
         this.loadPlaylists();
-        //this.loadAlbums();
+        this.loadAlbums();
+
     }
 
 
@@ -84,6 +88,7 @@ class Dashboard extends Component {
      * Save 
     saveToStorage() 
     */
+
 
     loadArtists() {
         this.spotifyApi.getArtists(this.artistIds).then(
@@ -112,6 +117,33 @@ class Dashboard extends Component {
         }
     }
 
+    loadAlbums() {
+
+        this.spotifyApi.getAlbums(this.albumIds).then(
+            function (data) {
+                const albums = this.state.albums.concat(data.body.albums); //! don't push, use concat
+                this.setState({ albums: albums });
+            }.bind(this),
+            function (err) {
+                console.error(err);
+            }
+        );
+
+        // for (let i in this.albumIds) {
+        //     let albumId = this.albumIds[i]
+
+        //     this.spotifyApi.getAlbum(albumId).then(
+        //         function (data) {
+        //             const playlists = this.state.playlists.concat(data.body); //! don't push, use concat
+        //             this.setState({ playlists: playlists });
+        //         }.bind(this),
+        //         function (err) {
+        //             console.error(err);
+        //         }
+        //     );
+        // }      
+    }
+
     selectArtist(artistId) {
         this.setState({ selectedArtist: artistId });
     }
@@ -135,6 +167,7 @@ class Dashboard extends Component {
     }
 
     deletePlaylist(playlistId) {
+        console.debug("delete playlist");
         //TODO
     }
 
@@ -162,10 +195,25 @@ class Dashboard extends Component {
         this.setState({ searchActive: false });
     }
 
+    startSelectionMode() {
+        this.setState({ selectionMode: true });
+    }
+
+    stopSelectionMode(event) {
+        if (!this.state.selectionMode) return;
+        let el = event.target;
+        while ((el = el.parentElement)) {
+            if (el.className === "favSelector") {
+                return;
+            }
+        }
+    
+        this.setState({ selectionMode: false });
+    }
 
     render() {
 
-        return <div>
+        return <div onMouseDown={this.stopSelectionMode}>
             {this.state.searchActive &&
                 <Search
                     accessToken={this.props.match.params.accessToken}
@@ -185,14 +233,18 @@ class Dashboard extends Component {
                 <ArtistList
                     artists={this.state.artists}
                     selectArtist={this.selectArtist}
-                    selectedArtist={this.state.selectedArtist} />
+                    selectedArtist={this.state.selectedArtist}
+                    selectionMode={this.state.selectionMode}
+                    startSelectionMode={this.startSelectionMode} />
             }
 
             {(this.state.selectedArtist != null) > 0 && 
                 <AlbumsByArtistList
                     accessToken={this.props.match.params.accessToken}
                     artistId={this.state.selectedArtist}
-                    playAlbum={this.playAlbum} />
+                    playAlbum={this.playAlbum} 
+                    selectionMode={this.state.selectionMode}
+                    startSelectionMode={this.startSelectionMode}/>
             }
 
 
@@ -200,6 +252,8 @@ class Dashboard extends Component {
                 <PlaylistList
                     playlists={this.state.playlists}
                     storedPlaylists={this.state.playlists}
+                    selectionMode={this.state.selectionMode}
+                    startSelectionMode={this.startSelectionMode}
                     playPlaylist={this.playPlaylist}
                     addPlaylist={this.addPlaylist}
                     deletePlaylist={this.deletePlaylist}
@@ -215,6 +269,8 @@ class Dashboard extends Component {
                     deleteAlbum={this.deleteAlbum}
                     playAlbum={this.playAlbum}
                     storedAlbums={this.state.albums}
+                    selectionMode={this.state.selectionMode}
+                    startSelectionMode={this.startSelectionMode}
                 />
             }
 

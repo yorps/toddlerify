@@ -7,23 +7,6 @@ import { MdQueueMusic } from "react-icons/md";
 
 class PlaylistList extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectionMode: false
-        }
-        this.startSelectionMode = this.startSelectionMode.bind(this);
-        this.stopSelectionMode = this.stopSelectionMode.bind(this);
-    }
-
-    startSelectionMode() {
-        this.setState({ selectionMode: true });
-    }
-
-    stopSelectionMode() {
-        this.setState({ selectionMode: false });
-    }
-
     addPlaylist() {
         //TODO
     }
@@ -48,9 +31,8 @@ class PlaylistList extends Component {
                         playPlaylist={this.props.playPlaylist}
                         addPlaylist={this.props.addPlaylist}
                         deletePlaylist={this.props.deletePlaylist}
-                        selectionMode={this.state.selectionMode}
-                        startSelectionMode={this.startSelectionMode}
-                        stopSelectionMode={this.stopSelectionMode}
+                        selectionMode={this.props.selectionMode}
+                        startSelectionMode={this.props.startSelectionMode}
                         isSelected={isSelected}
                     />)
                 })}

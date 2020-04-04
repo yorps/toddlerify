@@ -12,7 +12,9 @@ class PlaylistIcon extends Component {
     }
 
     onClick = (e) => {
-        this.props.playPlaylist(e.target.id, this.props.playlist.uri);
+        if (!this.props.selectionMode) {
+            this.props.playPlaylist(e.target.id, this.props.playlist.uri);
+        } 
     };
 
     onLongClick() {

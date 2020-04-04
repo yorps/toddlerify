@@ -18,7 +18,9 @@ class AlbumIcon extends Component {
     }
 
     onClick = (e) => {
-        this.props.playAlbum(e.target.id, this.props.album.uri);
+        if (!this.props.selectionMode) {
+            this.props.playAlbum(e.target.id, this.props.album.uri);
+        } 
     };
 
     onLongClick () {

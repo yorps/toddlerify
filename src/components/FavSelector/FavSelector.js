@@ -14,12 +14,16 @@ class FavSelector extends Component {
     }
 
     select(e) {
+        console.debug("select");
         e.stopPropagation();
         this.props.selectCallback(this.props.item);
     }
 
     unselect(e) {
+        console.debug("unselect", e.currentTarget);
         e.stopPropagation();
+        console.debug("stop propagation? ");
+        console.debug(e);
         this.props.unselectCallback(this.props.item);
     }
 
@@ -28,15 +32,15 @@ class FavSelector extends Component {
 
             {this.props.selected &&
                 <IconContext.Provider value={{ className: "heartSelected" }}>
-                    <div>
-                        <GiHearts onClick={this.select} />
+                    <div className="favSelector">
+                        <GiHearts onClick={this.unselect} />
                     </div>
                 </IconContext.Provider>
             }
             {!this.props.selected &&
 
                 <IconContext.Provider value={{ className: "heart" }}>
-                    <div>
+                    <div className="favSelector">
                         <GiHeartPlus onClick={this.select} />
                     </div>
                 </IconContext.Provider>

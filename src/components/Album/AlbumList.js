@@ -7,23 +7,6 @@ import { MdMusicVideo } from "react-icons/md";
 
 class AlbumList extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectionMode: false
-        }
-        this.startSelectionMode = this.startSelectionMode.bind(this);
-        this.stopSelectionMode = this.stopSelectionMode.bind(this);
-    }
-
-    startSelectionMode() {
-        this.setState({selectionMode: true});
-    }
-
-    stopSelectionMode() {
-        this.setState({selectionMode: false});
-    }
-
     render() {
 
         return <div>
@@ -40,9 +23,8 @@ class AlbumList extends Component {
                         playAlbum={this.props.playAlbum}
                         addAlbum={this.props.addAlbum}
                         deleteAlbum={this.props.deleteAlbum}
-                        selectionMode={this.state.selectionMode}
-                        startSelectionMode={this.startSelectionMode}
-                        stopSelectionMode={this.stopSelectionMode}
+                        selectionMode={this.props.selectionMode}
+                        startSelectionMode={this.props.startSelectionMode}
                         isSelected={isSelected}
                         />)
                 })}
