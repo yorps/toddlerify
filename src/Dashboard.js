@@ -14,12 +14,16 @@ class Dashboard extends Component {
         super(props);
 
         this.selectArtist = this.selectArtist.bind(this);
+
+        this.selectAlbum = this.selectAlbum.bind(this);
         this.playAlbum = this.playAlbum.bind(this);
         this.addAlbum = this.addAlbum.bind(this);
-        this.selectAlbum = this.selectAlbum.bind(this);
+        this.deleteAlbum = this.deleteAlbum.bind(this);
+
         this.playPlaylist = this.playPlaylist.bind(this);
         this.addPlaylist = this.addPlaylist.bind(this);
         this.deletePlaylist = this.deletePlaylist.bind(this);
+        
         this.addItem = this.addItem.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
         this.startSelectionMode = this.startSelectionMode.bind(this);
@@ -158,7 +162,7 @@ class Dashboard extends Component {
         this.setState({ albums: albums });
     }
 
-    /* Add Playlist */
+
     addPlaylist(playlist) {
         const playlists = this.state.playlists.concat(playlist); //! don't push, use concat
         this.setState({ playlists: playlists });
@@ -167,8 +171,10 @@ class Dashboard extends Component {
     }
 
     deletePlaylist(playlistId) {
-        console.debug("delete playlist");
-        //TODO
+        const playlists = this.state.playlists;
+        const index = playlists.indexOf(playlistId);
+        playlists.splice(index, 1);
+        this.setState({ playlists: playlists });
     }
 
     playPlaylist(playlistId, playlistUri) {
@@ -183,8 +189,20 @@ class Dashboard extends Component {
         localStorage.setItem("toddlify_albums", this.albumIds.toString());
     }
 
-    deleteAlbum(album) {
-        //TODO
+    deleteAlbum(albumId) {
+        const albums = this.state.albums;
+        const index = albums.indexOf(albumId);
+        albums.splice(index, 1);
+        this.setState({ albums: albums });
+        localStorage.setItem("toddlify_albums", this.albumIds.toString());
+    }
+
+    deleteArtist(artistId) {
+        const artists = this.state.artists;
+        const index = artists.indexOf(artistId);
+        artists.splice(index, 1);
+        this.setState({ artists: artists });
+        localStorage.setItem("toddlify_playlists", this.playlistIds.toString());
     }
 
     addItem() {
