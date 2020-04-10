@@ -14,6 +14,8 @@ class Dashboard extends Component {
         super(props);
 
         this.selectArtist = this.selectArtist.bind(this);
+        this.addArtist = this.addArtist.bind(this);
+        this.deleteArtist = this.deleteArtist.bind(this);
 
         this.selectAlbum = this.selectAlbum.bind(this);
         this.playAlbum = this.playAlbum.bind(this);
@@ -23,7 +25,7 @@ class Dashboard extends Component {
         this.playPlaylist = this.playPlaylist.bind(this);
         this.addPlaylist = this.addPlaylist.bind(this);
         this.deletePlaylist = this.deletePlaylist.bind(this);
-        
+
         this.addItem = this.addItem.bind(this);
         this.cancelSearch = this.cancelSearch.bind(this);
         this.startSelectionMode = this.startSelectionMode.bind(this);
@@ -88,10 +90,7 @@ class Dashboard extends Component {
         localStorage.setItem("toddlify_albums", this.albumIds.toString());
     }
 
-    /*
-     * Save 
-    saveToStorage() 
-    */
+    /** LOAD **/
 
 
     loadArtists() {
@@ -148,8 +147,17 @@ class Dashboard extends Component {
         // }      
     }
 
+
+    /* ARTIST */
     selectArtist(artistId) {
         this.setState({ selectedArtist: artistId });
+    }
+
+    addArtist(artistId) {
+        const artists = this.state.artists.concat(artistId); //! don't push, use concat
+        this.setState({ artists: artists });
+        this.artistIds.push(artists.id);
+        localStorage.setItem("toddlify_artists", this.artistIds.toString());
     }
 
     playAlbum(albumId, albumUri) {
@@ -170,11 +178,12 @@ class Dashboard extends Component {
         localStorage.setItem("toddlify_playlists", this.playlistIds.toString());
     }
 
-    deletePlaylist(playlistId) {
+    deletePlaylist(playlist) {
         const playlists = this.state.playlists;
-        const index = playlists.indexOf(playlistId);
-        playlists.splice(index, 1);
+        playlists.splice(playlists.indexOf(playlist), 1);
         this.setState({ playlists: playlists });
+        this.playlistIds.splice(this.playlistIds.indexOf(playlist.id), 1);
+        localStorage.setItem("toddlify_playlists", this.playlistIds.toString());
     }
 
     playPlaylist(playlistId, playlistUri) {
@@ -189,20 +198,20 @@ class Dashboard extends Component {
         localStorage.setItem("toddlify_albums", this.albumIds.toString());
     }
 
-    deleteAlbum(albumId) {
+    deleteAlbum(album) {
         const albums = this.state.albums;
-        const index = albums.indexOf(albumId);
-        albums.splice(index, 1);
+        albums.splice(albums.indexOf(album), 1);
         this.setState({ albums: albums });
+        this.albumIds.splice(this.albumIds.indexOf(album.id), 1);
         localStorage.setItem("toddlify_albums", this.albumIds.toString());
     }
 
-    deleteArtist(artistId) {
+    deleteArtist(artist) {
         const artists = this.state.artists;
-        const index = artists.indexOf(artistId);
-        artists.splice(index, 1);
+        artists.splice(artists.indexOf(artist), 1);
         this.setState({ artists: artists });
-        localStorage.setItem("toddlify_playlists", this.playlistIds.toString());
+        this.artistIds.splice(this.artistIds.indexOf(artist.id), 1);
+        localStorage.setItem("toddlify_artists", this.this.artistsId.toString());
     }
 
     addItem() {
@@ -244,13 +253,18 @@ class Dashboard extends Component {
                     playPlaylist={this.playPlaylist}
                     addPlaylist={this.addPlaylist}
                     deletePlaylist={this.deletePlaylist}
-                    storedArtists={this.state.artists} />
+                    storedArtists={this.state.artists} 
+                    addArtist={this.addArtist}
+                    deleteArtist={this.deleteArtist}
+                />
             }
 
             {!this.state.searchActive &&
                 <ArtistList
                     artists={this.state.artists}
+                    storedArtists={this.state.artists}
                     selectArtist={this.selectArtist}
+                    deleteArtist={this.deleteArtist}
                     selectedArtist={this.state.selectedArtist}
                     selectionMode={this.state.selectionMode}
                     startSelectionMode={this.startSelectionMode} />

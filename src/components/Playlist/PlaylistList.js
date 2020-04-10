@@ -6,15 +6,7 @@ import { IconContext } from "react-icons";
 import { MdQueueMusic } from "react-icons/md";
 
 class PlaylistList extends Component {
-
-    addPlaylist() {
-        //TODO
-    }
-
-    deletePlaylist() {
-        //TODO
-    }
-
+    
     render() {
 
         const showList = this.props.playlists.length > 0;

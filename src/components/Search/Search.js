@@ -20,9 +20,6 @@ class Search extends Component {
             albums: []
         }
 
-        this.selectArtist = this.selectArtist.bind(this);
-
-
         this.spotifyApi = new SpotifyWebApi();
         this.spotifyApi.setAccessToken(this.props.accessToken);
         this.startSearch = this.startSearch.bind(this);
@@ -64,10 +61,6 @@ class Search extends Component {
         )
     }
 
-    selectArtist(artistId) {
-        //TODO
-    }
-
     startSelectionMode() {
         this.setState({ selectionMode: true });
     }
@@ -76,12 +69,11 @@ class Search extends Component {
         if (!this.state.selectionMode) return;
         let el = event.target;
         while ((el = el.parentElement)) {
-            console.debug(el.className);
             if (el.className === "favSelector") {
                 return;
             }
         }
-    
+
         this.setState({ selectionMode: false });
     }
 
@@ -96,12 +88,16 @@ class Search extends Component {
 
                 <SearchField search={this.startSearch} />
             </div>
-            <div className="clear"/>
+            <div className="clear" />
             <ArtistList
                 artists={this.state.artists}
+                addArtist={this.props.addArtist}
+                deleteArtist={this.props.deleteArtist}
                 storedArtists={this.props.storedArtists}
                 selectArtist={this.selectArtist}
-                addArtist={this.addArtist} />
+                selectionMode={this.state.selectionMode}
+                startSelectionMode={this.startSelectionMode}
+            />
             <PlaylistList
                 playlists={this.state.playlists}
                 addPlaylist={this.props.addPlaylist}
@@ -111,7 +107,7 @@ class Search extends Component {
                 selectionMode={this.state.selectionMode}
                 startSelectionMode={this.startSelectionMode}
             />
-            <div className="clear"/>
+            <div className="clear" />
             <AlbumList
                 albums={this.state.albums}
                 addAlbum={this.props.addAlbum}

@@ -34,10 +34,6 @@ class ArtistIcon extends Component {
         }
     };
 
-
-
-
-
     render() {
         let iconClass = "artistIcon ";
         iconClass += (this.props.globalSelectedArtist == null) ? "neutral" :
@@ -54,9 +50,10 @@ class ArtistIcon extends Component {
                     title={this.props.artist.name}
                     style={{ backgroundImage: `url(${img})` }} >
             {this.props.selectionMode &&
-                <FavSelector selected={this.props.isSelected}
-                    selectCallback={this.props.addPlaylist}
-                    unselectCallback={this.props.deletePlaylist}
+                <FavSelector 
+                    selected={this.props.isSelected}
+                    selectCallback={this.props.addArtist}
+                    unselectCallback={this.props.deleteArtist}
                     itemId={this.props.artist.id}
                     item={this.props.artist} />
             }

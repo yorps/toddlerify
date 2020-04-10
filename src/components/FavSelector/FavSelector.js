@@ -14,16 +14,12 @@ class FavSelector extends Component {
     }
 
     select(e) {
-        console.debug("select");
         e.stopPropagation();
         this.props.selectCallback(this.props.item);
     }
 
     unselect(e) {
-        console.debug("unselect", e.currentTarget);
         e.stopPropagation();
-        console.debug("stop propagation? ");
-        console.debug(e);
         this.props.unselectCallback(this.props.item);
     }
 
