@@ -183,7 +183,7 @@ class Dashboard extends Component {
         artists.splice(artists.indexOf(artist), 1);
         this.setState({ artists: artists });
         this.artistIds.splice(this.artistIds.indexOf(artist.id), 1);
-        localStorage.setItem("toddlify_artists", this.this.artistsId.toString());
+        localStorage.setItem("toddlify_artists", this.artistsId.toString());
     }
 
 
