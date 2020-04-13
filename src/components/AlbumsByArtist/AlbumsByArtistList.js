@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import AlbumIcon from "./AlbumIcon"
+import AlbumIcon from "../Album/AlbumIcon"
 import SpotifyWebApi from 'spotify-web-api-node';
-import "./Album.css"
+import "../Album/Album.css"
 
 
 class AlbumsByArtistList extends Component {
@@ -65,6 +65,7 @@ class AlbumsByArtistList extends Component {
     }
 
     render() {
+
         return <div className="albumList">
             {this.state.albums.map((album, i) => {
                 return (<AlbumIcon key={album.id}

@@ -4,7 +4,7 @@ import { initialData } from "./config";
 import SpotifyWebApi from "spotify-web-api-node";
 import ArtistList from "./components/Artist/ArtistList";
 import AlbumList from "./components/Album/AlbumList";
-import AlbumsByArtistList from "./components/Album/AlbumsByArtistList";
+import AlbumsByArtistList from "./components/AlbumsByArtist/AlbumsByArtistList";
 import SpotifyPlayer from 'react-spotify-web-playback';
 import Search from "./components/Search/Search";
 import PlaylistList from "./components/Playlist/PlaylistList";

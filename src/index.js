@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import AlbumsByArtistList from './components/Album/AlbumsByArtistList'
+import AlbumsByArtistList from './components/AlbumsByArtist/AlbumsByArtistList'
 import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router} from 'react-router-dom';
 import Dashboard from './Dashboard';
