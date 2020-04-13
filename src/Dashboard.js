@@ -14,6 +14,8 @@ class Dashboard extends Component {
         super(props);
 
         this.selectArtist = this.selectArtist.bind(this);
+        this.cancelArtistSelection = this.cancelArtistSelection.bind(this);
+
         this.addArtist = this.addArtist.bind(this);
         this.deleteArtist = this.deleteArtist.bind(this);
 
@@ -159,10 +161,13 @@ class Dashboard extends Component {
         // }      
     }
 
-
     /* ARTIST */
     selectArtist(artistId) {
         this.setState({ selectedArtist: artistId });
+    }
+
+    cancelArtistSelection(artistId) {
+        this.setState({ selectedArtist: null });
     }
 
     addArtist(artist) {
@@ -267,7 +272,7 @@ class Dashboard extends Component {
                 />
             }
 
-            {!this.state.searchActive &&
+            {!this.state.searchActive && (this.state.selectedArtist == null) &&
                 <ArtistList
                     artists={this.state.artists}
                     storedArtists={this.state.artists}
@@ -283,6 +288,15 @@ class Dashboard extends Component {
                     accessToken={this.props.match.params.accessToken}
                     artistId={this.state.selectedArtist}
                     playAlbum={this.playAlbum}
+                    addAlbum={this.addAlbum}
+                    deleteAlbum={this.deleteAlbum}
+                    storedAlbums={this.state.albums}
+                    artists={this.state.artists}
+                    storedArtists={this.state.artists}
+                    selectArtist={this.selectArtist}
+                    cancelArtistSelection={this.cancelArtistSelection}
+                    deleteArtist={this.deleteArtist}
+                    selectedArtist={this.state.selectedArtist}
                     selectionMode={this.state.selectionMode}
                     startSelectionMode={this.startSelectionMode} />
             }

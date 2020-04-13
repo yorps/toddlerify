@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import AlbumIcon from "../Album/AlbumIcon"
+import AlbumList from "../Album/AlbumList";
+import ArtistList from "../Artist/ArtistList";
 import SpotifyWebApi from 'spotify-web-api-node';
-import "../Album/Album.css"
+import "../Album/Album.css";
+import { IconContext } from "react-icons";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 
 class AlbumsByArtistList extends Component {
@@ -61,19 +64,39 @@ class AlbumsByArtistList extends Component {
     }
 
     selectionCallback() {
-        this.setState({selectionMode: true});
+        this.setState({ selectionMode: true });
     }
 
     render() {
 
         return <div className="albumList">
-            {this.state.albums.map((album, i) => {
-                return (<AlbumIcon key={album.id}
-                    className="albumIcon"
-                    album={album}
-                    playAlbum={this.props.playAlbum}
-                />)
-            })}
+            <div>
+                <IconContext.Provider value={{ className: "backIcon" }}>
+                    <div>
+                        <FaArrowAltCircleLeft onClick={this.props.cancelArtistSelection} />
+                    </div>
+                </IconContext.Provider>
+            </div>
+
+            <ArtistList
+                artists={this.props.artists}
+                storedArtists={this.props.artists}
+                selectArtist={this.props.selectArtist}
+                deleteArtist={this.props.deleteArtist}
+                selectedArtist={this.props.selectedArtist}
+                selectionMode={this.props.selectionMode}
+                startSelectionMode={this.props.startSelectionMode} />
+            <AlbumList
+                albums={this.state.albums}
+                addAlbum={this.props.addAlbum}
+                deleteAlbum={this.props.deleteAlbum}
+                playAlbum={this.props.playAlbum}
+                storedAlbums={this.props.storedAlbums}
+                selectionMode={this.props.selectionMode}
+                startSelectionMode={this.props.startSelectionMode}
+            />
+
+
         </div>
 
     }
@@ -82,13 +105,19 @@ class AlbumsByArtistList extends Component {
 
 export default AlbumsByArtistList;
 
-
 AlbumsByArtistList.propTypes = {
     accessToken: PropTypes.string,
     artistId: PropTypes.string,
+    storedAlbums: PropTypes.arrayOf(PropTypes.object),
     playAlbum: PropTypes.func,
-    selectedAlbums: PropTypes.object
+    addAlbum: PropTypes.func,
+    deleteAlbum: PropTypes.func,
+    selectionMode: PropTypes.bool,
+    startSelectionMode: PropTypes.func
 };
+
+
+
 /*
 
 ALBUM EXAMPLE
