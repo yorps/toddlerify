@@ -17,7 +17,6 @@ class Dashboard extends Component {
         this.addArtist = this.addArtist.bind(this);
         this.deleteArtist = this.deleteArtist.bind(this);
 
-        this.selectAlbum = this.selectAlbum.bind(this);
         this.playAlbum = this.playAlbum.bind(this);
         this.addAlbum = this.addAlbum.bind(this);
         this.deleteAlbum = this.deleteAlbum.bind(this);
@@ -90,10 +89,12 @@ class Dashboard extends Component {
         localStorage.setItem("toddlify_albums", this.albumIds.toString());
     }
 
+
     /** LOAD **/
 
 
     loadArtists() {
+        //FIXME: If artistIds is longer than 50 artists, split!
         this.spotifyApi.getArtists(this.artistIds).then(
             function (data) {
                 this.setState({ artists: data.body.artists });
@@ -122,6 +123,7 @@ class Dashboard extends Component {
 
     loadAlbums() {
 
+        //FIXME: If albumIds is longer than 20 albums, split! Or select it one by one
         this.spotifyApi.getAlbums(this.albumIds).then(
             function (data) {
                 const albums = this.state.albums.concat(data.body.albums); //! don't push, use concat
@@ -153,23 +155,27 @@ class Dashboard extends Component {
         this.setState({ selectedArtist: artistId });
     }
 
-    addArtist(artistId) {
-        const artists = this.state.artists.concat(artistId); //! don't push, use concat
+    addArtist(artist) {
+        if (this.artistIds.indexOf(artist.id) >= 0) return;
+        const artists = this.state.artists.concat(artist); //! don't push, use concat
         this.setState({ artists: artists });
-        this.artistIds.push(artists.id);
+        this.artistIds.push(artist.id);
         localStorage.setItem("toddlify_artists", this.artistIds.toString());
     }
+
+    deleteArtist(artist) {
+        const artists = this.state.artists;
+        artists.splice(artists.indexOf(artist), 1);
+        this.setState({ artists: artists });
+        this.artistIds.splice(this.artistIds.indexOf(artist.id), 1);
+        localStorage.setItem("toddlify_artists", this.this.artistsId.toString());
+    }
+
 
     playAlbum(albumId, albumUri) {
         var uris = [albumUri];
         this.setState({ selectedAlbum: albumId, isPlaying: true, tracksPlaying: uris });
     }
-
-    selectAlbum(albumId) {
-        const albums = this.state.albums.concat(albumId);
-        this.setState({ albums: albums });
-    }
-
 
     addPlaylist(playlist) {
         const playlists = this.state.playlists.concat(playlist); //! don't push, use concat
@@ -204,14 +210,6 @@ class Dashboard extends Component {
         this.setState({ albums: albums });
         this.albumIds.splice(this.albumIds.indexOf(album.id), 1);
         localStorage.setItem("toddlify_albums", this.albumIds.toString());
-    }
-
-    deleteArtist(artist) {
-        const artists = this.state.artists;
-        artists.splice(artists.indexOf(artist), 1);
-        this.setState({ artists: artists });
-        this.artistIds.splice(this.artistIds.indexOf(artist.id), 1);
-        localStorage.setItem("toddlify_artists", this.this.artistsId.toString());
     }
 
     addItem() {

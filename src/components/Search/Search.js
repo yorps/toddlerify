@@ -94,7 +94,7 @@ class Search extends Component {
                 addArtist={this.props.addArtist}
                 deleteArtist={this.props.deleteArtist}
                 storedArtists={this.props.storedArtists}
-                selectArtist={this.selectArtist}
+                selectArtist={this.props.addArtist}
                 selectionMode={this.state.selectionMode}
                 startSelectionMode={this.startSelectionMode}
             />
