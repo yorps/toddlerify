@@ -59,12 +59,7 @@ class Dashboard extends Component {
             localStorage.setItem("toddlify", "stored");
         } else {
             // load from local storage
-            this.artistIds = localStorage.getItem("toddlify_artists");
-            this.artistIds = this.artistIds ? this.artistIds.split(',') : [];
-            this.playlistIds = localStorage.getItem("toddlify_playlists");
-            this.playlistIds = this.playlistIds ? this.playlistIds.split(',') : [];
-            this.albumIds = localStorage.getItem("toddlify_albums");
-            this.albumIds = this.albumIds ? this.albumIds.split(',') : [];
+            this.loadStorageData();
         }
 
         this.loadArtists();
@@ -89,12 +84,26 @@ class Dashboard extends Component {
         localStorage.setItem("toddlify_albums", this.albumIds.toString());
     }
 
+    loadStorageData() {
+        //reset data here:
+        //localStorage.setItem("toddlify_artists", []);
+
+        this.artistIds = localStorage.getItem("toddlify_artists");
+        this.artistIds = this.artistIds ? this.artistIds.split(',') : [];
+        this.playlistIds = localStorage.getItem("toddlify_playlists");
+        this.playlistIds = this.playlistIds ? this.playlistIds.split(',') : [];
+        this.albumIds = localStorage.getItem("toddlify_albums");
+        this.albumIds = this.albumIds ? this.albumIds.split(',') : [];
+    }
+
+
 
     /** LOAD **/
 
 
     loadArtists() {
         //FIXME: If artistIds is longer than 50 artists, split!
+        if (this.artistIds.length === 0) return;
         this.spotifyApi.getArtists(this.artistIds).then(
             function (data) {
                 this.setState({ artists: data.body.artists });
@@ -124,6 +133,7 @@ class Dashboard extends Component {
     loadAlbums() {
 
         //FIXME: If albumIds is longer than 20 albums, split! Or select it one by one
+        if (this.albumIds.length === 0) return;
         this.spotifyApi.getAlbums(this.albumIds).then(
             function (data) {
                 const albums = this.state.albums.concat(data.body.albums); //! don't push, use concat
@@ -232,7 +242,7 @@ class Dashboard extends Component {
                 return;
             }
         }
-    
+
         this.setState({ selectionMode: false });
     }
 
@@ -251,7 +261,7 @@ class Dashboard extends Component {
                     playPlaylist={this.playPlaylist}
                     addPlaylist={this.addPlaylist}
                     deletePlaylist={this.deletePlaylist}
-                    storedArtists={this.state.artists} 
+                    storedArtists={this.state.artists}
                     addArtist={this.addArtist}
                     deleteArtist={this.deleteArtist}
                 />
@@ -268,17 +278,17 @@ class Dashboard extends Component {
                     startSelectionMode={this.startSelectionMode} />
             }
 
-            {(this.state.selectedArtist != null) > 0 && 
+            {(this.state.selectedArtist != null) > 0 &&
                 <AlbumsByArtistList
                     accessToken={this.props.match.params.accessToken}
                     artistId={this.state.selectedArtist}
-                    playAlbum={this.playAlbum} 
+                    playAlbum={this.playAlbum}
                     selectionMode={this.state.selectionMode}
-                    startSelectionMode={this.startSelectionMode}/>
+                    startSelectionMode={this.startSelectionMode} />
             }
 
 
-            {(this.state.selectedArtist == null) > 0 && !this.state.searchActive  &&
+            {(this.state.selectedArtist == null) > 0 && !this.state.searchActive &&
                 <PlaylistList
                     playlists={this.state.playlists}
                     storedPlaylists={this.state.playlists}
@@ -292,7 +302,7 @@ class Dashboard extends Component {
 
             <div className="clear" />
 
-            {(this.state.selectedArtist == null) > 0 && !this.state.searchActive  &&
+            {(this.state.selectedArtist == null) > 0 && !this.state.searchActive &&
                 <AlbumList
                     albums={this.state.albums}
                     addAlbum={this.addAlbum}
