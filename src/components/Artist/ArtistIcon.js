@@ -45,7 +45,11 @@ class ArtistIcon extends Component {
 
         return <div className="iconFloat">
                 <div
-                    onClick={this.onClick}
+                    onTouchStart={this.handleButtonPress}
+                    onTouchEnd={this.handleButtonRelease}
+                    onMouseDown={this.handleButtonPress}
+                    onMouseUp={this.handleButtonRelease}
+                    onMouseLeave={this.handleButtonRelease}
                     className={iconClass}
                     title={this.props.artist.name}
                     style={{ backgroundImage: `url(${img})` }} >
